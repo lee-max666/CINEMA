@@ -89,33 +89,35 @@
         .main-tab-content.active { display: block; }
 
         .poster-scroll { 
-            display: flex; gap: 14px; overflow-x: auto; padding-bottom: 10px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; cursor: grab;
+            display: flex; gap: 16px; overflow-x: auto; padding-bottom: 10px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; cursor: grab;
         }
         .poster-scroll:active { cursor: grabbing; }
         .poster-scroll::-webkit-scrollbar { height: 6px; }
         .poster-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 
-        .poster-card { min-width: 170px; width: 170px; cursor: pointer; position: relative; flex-shrink: 0; }
+        /* 포스터 사이즈 대폭 확대 (너비 200px, 높이 285px) */
+        .poster-card { min-width: 200px; width: 200px; cursor: pointer; position: relative; flex-shrink: 0; }
         .poster-img {
-            width: 170px; height: 240px; background-color: #e2e8f0; border-radius: 10px; overflow: hidden; position: relative; margin-bottom: 8px; box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            width: 200px; height: 285px; background-color: #e2e8f0; border-radius: 12px; overflow: hidden; position: relative; margin-bottom: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.12);
         }
         .poster-img img { width: 100%; height: 100%; object-fit: cover; }
         
         .rank-badge {
-            position: absolute; top: 8px; left: 8px; background: rgba(29, 189, 176, 0.95); color: #fff; font-size: 13px; font-weight: 900; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            position: absolute; top: 10px; left: 10px; background: rgba(29, 189, 176, 0.95); color: #fff; font-size: 14px; font-weight: 900; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
-        .poster-title { font-size: 14px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--choco-dark); }
-        .poster-info { font-size: 12px; color: #64748b; margin-top: 3px; display: flex; justify-content: space-between; }
+        .poster-title { font-size: 15px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--choco-dark); }
+        .poster-info { font-size: 13px; color: #64748b; margin-top: 3px; display: flex; justify-content: space-between; }
 
-        .event-grid { display: flex; flex-direction: column; gap: 10px; }
+        /* 이벤트 카드: 인스타 피드 스타일 1:1 정방향 비율 적용 */
+        .event-grid { display: flex; flex-direction: column; gap: 12px; }
         .event-card {
-            background: #fff; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; display: flex; align-items: center; cursor: pointer;
+            background: #fff; border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; display: flex; align-items: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
-        .event-thumb { width: 90px; height: 70px; background: #ddd; flex-shrink: 0; }
+        .event-thumb { width: 95px; height: 95px; background: #ddd; flex-shrink: 0; } /* 1:1 정방향 정사각형 크기 */
         .event-thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .event-desc { padding: 10px 12px; flex: 1; }
-        .event-desc h4 { font-size: 13px; font-weight: bold; margin-bottom: 4px; color: var(--choco-dark); }
-        .event-desc p { font-size: 11px; color: #64748b; }
+        .event-desc { padding: 12px 14px; flex: 1; }
+        .event-desc h4 { font-size: 14px; font-weight: bold; margin-bottom: 6px; color: var(--choco-dark); }
+        .event-desc p { font-size: 12px; color: #64748b; line-height: 1.4; }
 
         .footer-about {
             background: #1e1b18; color: #cbd5e1; padding: 24px 16px; font-size: 11px; line-height: 1.6;
@@ -219,19 +221,19 @@
                 <button class="main-tab-btn" onclick="switchMainTab(this, 'only')">ONLY 독점작</button>
             </div>
 
-            <!-- 현재상영작 1~10위 포스터 (파일명 연동) -->
+            <!-- 현재상영작 1~10위 포스터 (사이즈 확대됨) -->
             <div id="subtab-now" class="section">
                 <div class="section-title">박스오피스 상영작</div>
                 <div class="poster-scroll" id="now-movies-scroll"></div>
             </div>
 
-            <!-- 상영예정작 포스터 (파일명 연동) -->
+            <!-- 상영예정작 포스터 (사이즈 확대됨) -->
             <div id="subtab-soon" class="section" style="display:none;">
                 <div class="section-title">개봉 예정 기대작</div>
                 <div class="poster-scroll" id="soon-movies-scroll"></div>
             </div>
 
-            <!-- ONLY 독점작 (오페라의 유령, 오페라 공연 포함) -->
+            <!-- ONLY 독점작 -->
             <div id="subtab-only" class="section" style="display:none;">
                 <div class="section-title">민트 시네마플러스 독점 공연</div>
                 <div class="poster-scroll">
@@ -248,7 +250,7 @@
                 </div>
             </div>
 
-            <!-- 이벤트 영역 (event1~4.jpg 연동) -->
+            <!-- 이벤트 영역 (1:1 정사각형 피드 스타일 적용) -->
             <div class="section">
                 <div class="section-title">진행 중인 이벤트</div>
                 <div class="event-grid">
@@ -377,7 +379,6 @@
 </div>
 
 <script>
-    // 현재 상영작 (미 비 포 유 띄어쓰기 반영, images 폴더 파일명 연동)
     const nowMovies = [
         { id: 1, title: "명량", rate: "38%", img: "./images/now1.jpg" },
         { id: 2, title: "포레스트 검프", rate: "24%", img: "./images/now2.jpg" },
@@ -391,7 +392,6 @@
         { id: 10, title: "그대들은 어떻게 살 것인가", rate: "0.5%", img: "./images/now10.jpg" }
     ];
 
-    // 상영 예정작 (암살자들 -> 파묘 soon7.jpg로 변경 반영)
     const soonMovies = [
         { title: "어벤져스: 둠스데이", date: "D-5", img: "./images/soon1.jpg" },
         { title: "듄: 파트3", date: "D-12", img: "./images/soon2.jpg" },
@@ -541,31 +541,31 @@
         document.getElementById('booking-modal-body').innerHTML = `
             <div style="font-weight:bold; font-size:13px; margin-bottom:8px;">날짜 선택</div>
             <div class="date-tabs">${datesHtml}</div>
-            <div style="font-weight:bold; font-size:13px; margin-bottom:8px;">상영관 및 시간 선택 (장르별 최적관 추천)</div>
+            <div style="font-weight:bold; font-size:13px; margin-bottom:8px;">상영관 및 시간 선택</div>
             
             <div class="hall-group">
-                <div class="hall-title">리클라이너관 (안락한 프리미엄 상영관)</div>
+                <div class="hall-title">리클라이너관</div>
                 <div class="time-slots">
                     <div class="time-chip" onclick="selectTimeSlot(this, '리클라이너관', '10:00 - 12:10')">10:00</div>
                     <div class="time-chip" onclick="selectTimeSlot(this, '리클라이너관', '13:00 - 15:10')">13:00</div>
                 </div>
             </div>
             <div class="hall-group">
-                <div class="hall-title">4DX관 (역동적 효과 체감 영화/공연)</div>
+                <div class="hall-title">4DX관</div>
                 <div class="time-slots">
                     <div class="time-chip" onclick="selectTimeSlot(this, '4DX관', '11:00 - 13:10')">11:00</div>
                     <div class="time-chip" onclick="selectTimeSlot(this, '4DX관', '14:20 - 16:30')">14:20</div>
                 </div>
             </div>
             <div class="hall-group">
-                <div class="hall-title">스크린X관 (좌우 확장 파노라마 뷰 영화)</div>
+                <div class="hall-title">스크린X관</div>
                 <div class="time-slots">
                     <div class="time-chip" onclick="selectTimeSlot(this, '스크린X관', '09:30 - 11:40')">09:30</div>
                     <div class="time-chip" onclick="selectTimeSlot(this, '스크린X관', '12:30 - 14:40')">12:30</div>
                 </div>
             </div>
             <div class="hall-group">
-                <div class="hall-title">돌비관 (최고급 사운드 영화 및 뮤지컬/오페라 실황)</div>
+                <div class="hall-title">돌비관</div>
                 <div class="time-slots">
                     <div class="time-chip" onclick="selectTimeSlot(this, '돌비관', '10:30 - 12:40')">10:30</div>
                     <div class="time-chip" onclick="selectTimeSlot(this, '돌비관', '13:50 - 16:00')">13:50</div>
