@@ -58,20 +58,20 @@
             }
         }
 
-        /* 상단 바 아이콘 컬러: 민트(#1dbdb0) */
+        /* 상단 바 간격 확장 및 아이콘 컬러: 민트(#1dbdb0) */
         .header {
-            height: 60px;
+            height: 72px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 16px;
+            padding: 0 20px;
             background-color: var(--bg-white);
             border-bottom: 1px solid var(--border-color);
             z-index: 10;
         }
-        .logo-img { height: 32px; cursor: pointer; object-fit: contain; }
-        .header-icons { display: flex; gap: 14px; align-items: center; }
-        .header-icons svg { width: 20px; height: 20px; fill: var(--mint-primary); cursor: pointer; }
+        .logo-img { height: 34px; cursor: pointer; object-fit: contain; }
+        .header-icons { display: flex; gap: 16px; align-items: center; }
+        .header-icons svg { width: 22px; height: 22px; fill: var(--mint-primary); cursor: pointer; }
 
         .content-scroll {
             flex: 1;
@@ -81,12 +81,13 @@
         }
         .content-scroll::-webkit-scrollbar { display: none; }
 
-        .section { padding: 16px; background: #fff; margin-bottom: 8px; }
+        .section { padding: 20px 16px; background: #fff; margin-bottom: 10px; }
         .section-title { font-size: 18px; font-weight: 900; margin-bottom: 14px; color: var(--choco-dark); letter-spacing: -0.5px; }
 
-        .main-tab-menu { display: flex; background: #fff; border-bottom: 1px solid var(--border-color); padding: 0 16px; }
+        /* 메인 탭 메뉴 간격 및 위치 하향 조정 */
+        .main-tab-menu { display: flex; background: #fff; border-bottom: 1px solid var(--border-color); padding: 4px 16px 0 16px; }
         .main-tab-btn {
-            flex: 1; background: none; border: none; color: #94a3b8; font-size: 14px; font-weight: bold; padding: 12px 0; cursor: pointer; position: relative; text-align: center;
+            flex: 1; background: none; border: none; color: #94a3b8; font-size: 14px; font-weight: bold; padding: 14px 0; cursor: pointer; position: relative; text-align: center;
         }
         .main-tab-btn.active { color: var(--choco-dark); }
         .main-tab-btn.active::after {
@@ -242,7 +243,7 @@
         .pay-btn { background: #fff; border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; text-align: center; font-size: 12px; font-weight: bold; cursor: pointer; }
         .pay-btn.selected { border-color: var(--mint-primary); background: var(--mint-light); color: #047857; }
 
-        /* 매점 스타일 (매점 주문 내역 사진 크기 슬림하게 조정) */
+        /* 매점 스타일 */
         .store-section-title { font-size: 15px; font-weight: 900; margin: 18px 0 10px 0; color: var(--choco-dark); border-left: 3px solid var(--mint-primary); padding-left: 8px; }
         .store-item-card { background: #fff; border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; margin-bottom: 10px; display: flex; gap: 12px; align-items: flex-start; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
         .store-item-img { width: 76px; height: 76px; border-radius: 8px; object-fit: cover; background: #f1f5f9; flex-shrink: 0; border: 1px solid var(--border-color); }
@@ -251,23 +252,21 @@
         .option-group { font-size: 11px; color: #475569; margin-top: 6px; display: flex; flex-direction: column; gap: 5px; }
         .option-group select { padding: 4px 6px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 11px; background: #fff; }
 
-        /* 영화 티켓 (중앙 큼직한 포스터 중심 + 하단 내용 및 QR코드 디자인) */
+        /* 영화 티켓 스타일 */
         .ticket-card {
             background: #fff; border: 1px solid var(--border-color); border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: 0 6px 16px rgba(0,0,0,0.06); text-align: center; position: relative; overflow: hidden;
         }
-        .ticket-card::top-accent { content: ''; position: absolute; top:0; left:0; width:100%; height:6px; background: var(--mint-primary); }
         .ticket-poster-big {
             width: 140px; height: 200px; border-radius: 10px; object-fit: cover; margin: 0 auto 12px auto; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid #fff;
         }
         .ticket-title-big { font-weight: 900; font-size: 17px; color: var(--choco-dark); margin-bottom: 8px; }
         .ticket-details { font-size: 12px; color: #475569; line-height: 1.6; margin-bottom: 14px; border-top: 1px dashed var(--border-color); border-bottom: 1px dashed var(--border-color); padding: 10px 0; text-align: left; }
-        .ticket-footer-row { display: flex; justify-content: space-between; align-items: center; }
         .ticket-qr-box {
             width: 60px; height: 60px; background: #f8fafc; border: 1px dashed var(--mint-primary); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px; margin: 0 auto;
         }
         .fake-qr { font-family: monospace; font-size: 10px; line-height: 9px; font-weight: bold; color: var(--choco-dark); letter-spacing: -1px; }
 
-        /* 매점 주문 내역 (매점 사이즈에 맞게 아담하고 깔끔하게 썸네일 축소) */
+        /* 매점 주문 내역 스타일 */
         .store-order-card {
             background: #fff; border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; gap: 12px; align-items: center; position: relative;
         }
@@ -477,7 +476,7 @@
         <div class="modal-body" id="store-payment-modal-body"></div>
     </div>
 
-    <!-- 통합 내역 확인 모달 (중앙 대형 포스터 스마트 티켓 및 슬림한 매점 픽업권 적용) -->
+    <!-- 통합 내역 확인 모달 -->
     <div id="history-modal" class="modal">
         <div class="modal-header">
             <div class="modal-title">나의 예매 및 매점 주문 내역</div>
@@ -1124,7 +1123,6 @@
         alert('모바일 오더 결제가 완료되었습니다! 우측 상단 내역함에서 확인하세요.');
     }
 
-    // 영화 예매 내역 (중앙 대형 포스터 + 하단 정보 및 가짜 QR코드) & 모바일 오더 내역 (슬림한 매점 썸네일)
     function openHistoryModal() {
         let html = '<div style="font-weight:bold; font-size:15px; margin-bottom:12px; color:var(--choco-dark);">🎟️ 영화 예매 내역 (스마트 티켓)</div>';
         
