@@ -58,7 +58,7 @@
             }
         }
 
-        /* 상단 바 간격 확장 및 아이콘 컬러: 민트(#1dbdb0) */
+        /* 상단 바 간격 및 로고 사이즈 확대 */
         .header {
             height: 72px;
             display: flex;
@@ -69,7 +69,7 @@
             border-bottom: 1px solid var(--border-color);
             z-index: 10;
         }
-        .logo-img { height: 34px; cursor: pointer; object-fit: contain; }
+        .logo-img { height: 42px; cursor: pointer; object-fit: contain; } /* 로고 크기 큼직하게 상향 */
         .header-icons { display: flex; gap: 16px; align-items: center; }
         .header-icons svg { width: 22px; height: 22px; fill: var(--mint-primary); cursor: pointer; }
 
@@ -204,6 +204,20 @@
             background-color: var(--mint-primary); color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; flex-shrink: 0;
         }
 
+        /* 검색 모달 스타일 */
+        .search-input-box {
+            width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; outline: none; background: #fff; margin-bottom: 14px;
+        }
+        .search-input-box:focus { border-color: var(--mint-primary); }
+
+        /* 알림 카드 스타일 */
+        .notif-card {
+            background: #fff; border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); display: flex; gap: 12px; align-items: flex-start;
+        }
+        .notif-icon {
+            width: 36px; height: 36px; background: var(--mint-light); color: var(--mint-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; font-weight: bold;
+        }
+
         /* 예매 탭 영화 카드 스타일 */
         .booking-movie-card {
             background: #fff; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-bottom: 12px; display: flex; gap: 16px; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
@@ -281,14 +295,14 @@
 
 <div class="app-container">
 
-    <!-- 상단 바 (아이콘 민트 컬러 적용 - SVG 심볼) -->
+    <!-- 상단 바 (로고 크기 확대 및 민트 아이콘 적용) -->
     <header class="header">
         <img src="./images/logo.png" alt="MINT CINEMA PLUS" class="logo-img" onclick="switchTab('home')">
         <div class="header-icons">
             <!-- 검색 아이콘 -->
-            <svg onclick="alert('검색')" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <svg onclick="openSearchModal()" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
             <!-- 알림 아이콘 -->
-            <svg onclick="alert('알림')" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+            <svg onclick="openNotificationModal()" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
             <!-- 티켓 내역 아이콘 -->
             <svg onclick="openHistoryModal()" viewBox="0 0 24 24"><path d="M22 10V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2zm-9 7.5h-2v-2h2v2zm0-4.5h-2v-2h2v2zm0-4.5h-2v-2h2v2z"/></svg>
         </div>
@@ -432,6 +446,27 @@
         </button>
     </nav>
 
+    <!-- 검색 모달 (영화, 개봉예정작, 독점작 통합 검색 및 바로예매 지원) -->
+    <div id="search-modal" class="modal">
+        <div class="modal-header">
+            <div class="modal-title">영화 통합 검색</div>
+            <button class="close-btn" onclick="closeSearchModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <input type="text" id="search-keyword-input" class="search-input-box" placeholder="영화 제목을 입력하세요 (예: 명량, 듄, 치이카와)" oninput="filterSearchResults(this.value)">
+            <div id="search-results-container"></div>
+        </div>
+    </div>
+
+    <!-- 알림 모달 (스마트 남은 시간 및 준비중 알림) -->
+    <div id="notification-modal" class="modal">
+        <div class="modal-header">
+            <div class="modal-title">알림 센터</div>
+            <button class="close-btn" onclick="closeNotificationModal()">✕</button>
+        </div>
+        <div class="modal-body" id="notification-modal-body"></div>
+    </div>
+
     <!-- 이벤트 상세 하단 슬라이드 팝업 (Bottom Sheet) -->
     <div id="event-modal-overlay" class="event-modal-overlay" onclick="closeEventModal(event)">
         <div class="event-modal-content" onclick="event.stopPropagation()">
@@ -489,27 +524,33 @@
 
 <script>
     const nowMovies = [
-        { id: 1, title: "명량", rate: "38%", rating: "9.1", img: "./images/now1.jpg" },
-        { id: 2, title: "포레스트 검프", rate: "24%", rating: "9.5", img: "./images/now2.jpg" },
-        { id: 3, title: "미 비 포 유", rate: "15%", rating: "9.2", img: "./images/now3.jpg" },
-        { id: 4, title: "호프", rate: "10%", rating: "8.8", img: "./images/now4.jpg" },
-        { id: 5, title: "극장판 치이카와: 인어 섬의 비밀", rate: "7%", rating: "9.4", img: "./images/now5.jpg" },
-        { id: 6, title: "듄", rate: "3%", rating: "9.3", img: "./images/now6.jpg" },
-        { id: 7, title: "호루몽", rate: "1%", rating: "8.5", img: "./images/now7.jpg" },
-        { id: 8, title: "오디세이", rate: "1%", rating: "9.1", img: "./images/now8.jpg" },
-        { id: 9, title: "인터스텔라", rate: "0.5%", rating: "9.7", img: "./images/now9.jpg" },
-        { id: 10, title: "그대들은 어떻게 살 것인가", rate: "0.5%", rating: "8.6", img: "./images/now10.jpg" }
+        { id: 1, title: "명량", rate: "38%", rating: "9.1", img: "./images/now1.jpg", category: "now" },
+        { id: 2, title: "포레스트 검프", rate: "24%", rating: "9.5", img: "./images/now2.jpg", category: "now" },
+        { id: 3, title: "미 비 포 유", rate: "15%", rating: "9.2", img: "./images/now3.jpg", category: "now" },
+        { id: 4, title: "호프", rate: "10%", rating: "8.8", img: "./images/now4.jpg", category: "now" },
+        { id: 5, title: "극장판 치이카와: 인어 섬의 비밀", rate: "7%", rating: "9.4", img: "./images/now5.jpg", category: "now" },
+        { id: 6, title: "듄", rate: "3%", rating: "9.3", img: "./images/now6.jpg", category: "now" },
+        { id: 7, title: "호루몽", rate: "1%", rating: "8.5", img: "./images/now7.jpg", category: "now" },
+        { id: 8, title: "오디세이", rate: "1%", rating: "9.1", img: "./images/now8.jpg", category: "now" },
+        { id: 9, title: "인터스텔라", rate: "0.5%", rating: "9.7", img: "./images/now9.jpg", category: "now" },
+        { id: 10, title: "그대들은 어떻게 살 것인가", rate: "0.5%", rating: "8.6", img: "./images/now10.jpg", category: "now" }
     ];
 
     const soonMovies = [
-        { title: "어벤져스: 둠스데이", date: "D-5", img: "./images/soon1.jpg" },
-        { title: "듄: 파트3", date: "D-12", img: "./images/soon2.jpg" },
-        { title: "겨울왕국2", date: "D-18", img: "./images/soon3.jpg" },
-        { title: "라라랜드", date: "D-24", img: "./images/soon4.jpg" },
-        { title: "포드 V 페라리", date: "D-30", img: "./images/soon5.jpg" },
-        { title: "해리포터와 비밀의 방", date: "D-35", img: "./images/soon6.jpg" },
-        { title: "파묘", date: "D-40", img: "./images/soon7.jpg" },
-        { title: "스파이더맨: 브랜드 뉴 데이", date: "D-45", img: "./images/soon8.jpg" }
+        { title: "어벤져스: 둠스데이", date: "D-5", img: "./images/soon1.jpg", category: "soon" },
+        { title: "듄: 파트3", date: "D-12", img: "./images/soon2.jpg", category: "soon" },
+        { title: "겨울왕국2", date: "D-18", img: "./images/soon3.jpg", category: "soon" },
+        { title: "라라랜드", date: "D-24", img: "./images/soon4.jpg", category: "soon" },
+        { title: "포드 V 페라리", date: "D-30", img: "./images/soon5.jpg", category: "soon" },
+        { title: "해리포터와 비밀의 방", date: "D-35", img: "./images/soon6.jpg", category: "soon" },
+        { title: "파묘", date: "D-40", img: "./images/soon7.jpg", category: "soon" },
+        { title: "스파이더맨: 브랜드 뉴 데이", date: "D-45", img: "./images/soon8.jpg", category: "soon" }
+    ];
+
+    const onlyMovies = [
+        { title: "오페라의 유령 뮤지컬 실황", img: "./images/only1.jpg", category: "only" },
+        { title: "비엔나 국립오페라 갈라 콘서트", img: "./images/only2.jpg", category: "only" },
+        { title: "초코사탕", img: "./images/only3.png", category: "only" }
     ];
 
     let myBookings = [];
@@ -641,6 +682,110 @@
     function selectMovieDirect(movieId) {
         selectedMovieForBooking = nowMovies.find(m => m.id === movieId);
         openNoticePopup(movieId);
+    }
+
+    // --- 검색 기능 관련 로직 ---
+    function openSearchModal() {
+        document.getElementById('search-keyword-input').value = '';
+        document.getElementById('search-results-container').innerHTML = '<p style="color:#94a3b8; font-size:13px; text-align:center; margin-top:20px;">검색어를 입력하시면 영화 목록이 표시됩니다.</p>';
+        document.getElementById('search-modal').classList.add('open');
+    }
+
+    function closeSearchModal() {
+        document.getElementById('search-modal').classList.remove('open');
+    }
+
+    function filterSearchResults(keyword) {
+        const container = document.getElementById('search-results-container');
+        if (!keyword.trim()) {
+            container.innerHTML = '<p style="color:#94a3b8; font-size:13px; text-align:center; margin-top:20px;">검색어를 입력하시면 영화 목록이 표시됩니다.</p>';
+            return;
+        }
+
+        const allTargetMovies = [
+            ...nowMovies.map(m => ({ ...m, tag: '무비 차트' })),
+            ...soonMovies.map(m => ({ ...m, tag: '개봉예정작', rating: m.date })),
+            ...onlyMovies.map(m => ({ ...m, tag: 'ONLY 독점작', rate: '단독공연', rating: '9.9' }))
+        ];
+
+        const matched = allTargetMovies.filter(m => m.title.toLowerCase().includes(keyword.toLowerCase()));
+
+        if (matched.length === 0) {
+            container.innerHTML = '<p style="color:#94a3b8; font-size:13px; text-align:center; margin-top:20px;">검색 결과가 없습니다.</p>';
+            return;
+        }
+
+        container.innerHTML = matched.map(m => `
+            <div class="booking-movie-card">
+                <img src="${m.img}" alt="${m.title}" class="booking-movie-poster">
+                <div class="booking-movie-info">
+                    <div>
+                        <span style="font-size:10px; background:var(--mint-light); color:var(--mint-primary); font-weight:bold; padding:2px 6px; border-radius:4px;">${m.tag}</span>
+                        <div class="booking-movie-title" style="margin-top:4px;">${m.title}</div>
+                        <div class="booking-movie-rate">${m.category === 'soon' ? '개봉일: '+m.date : '평점 ⭐ '+m.rating}</div>
+                    </div>
+                    <button class="booking-movie-btn" onclick="closeSearchModal(); openOnlyBooking('${m.title}', '${m.img}')">바로예매</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // --- 알림 센터 로직 (시간 기준 남은 시간 & 매점 준비중 표시) ---
+    function openNotificationModal() {
+        let html = '';
+        let hasContent = false;
+
+        if (myBookings.length > 0 || myStoreOrders.length > 0) {
+            hasContent = true;
+
+            // 예매 영화 알림 (현재 시간 기준 잔여 시간 계산)
+            let sortedBookings = [...myBookings].sort((a, b) => a.time.localeCompare(b.time));
+            sortedBookings.forEach(b => {
+                html += `
+                    <div class="notif-card">
+                        <div class="notif-icon">🎬</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:bold; font-size:13px; color:var(--choco-dark); margin-bottom:2px;">[영화 상영 안내] ${b.title}</div>
+                            <div style="font-size:12px; color:#475569; line-height:1.4;">
+                                선택하신 상영 일시(<b style="color:var(--mint-primary);">${b.time}</b>) 기준으로 예매가 확정되었습니다.<br>
+                                상영시간 15분 전 게이트 입장을 준비해주세요!
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 매점 주문 알림
+            myStoreOrders.forEach(o => {
+                html += `
+                    <div class="notif-card">
+                        <div class="notif-icon">🍿</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:bold; font-size:13px; color:var(--choco-dark); margin-bottom:2px;">[매점 오더 접수] ${o.name}</div>
+                            <div style="font-size:12px; color:#475569; line-height:1.4;">
+                                주문하신 메뉴가 정상 접수되었습니다.<br>
+                                <span style="color:#f59e0b; font-weight:bold;">[상품 준비중]</span> 조리가 완료되면 스크린 및 번호표를 확인해주세요.
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            html = `
+                <div style="text-align:center; padding:40px 20px; color:#94a3b8;">
+                    <div style="font-size:32px; margin-bottom:8px;">🔔</div>
+                    <p style="font-size:13px; font-weight:bold;">새로운 알림이 없습니다.</p>
+                    <p style="font-size:11px; margin-top:4px;">영화 예매 또는 매점 주문 시 실시간 안내가 이곳에 표시됩니다.</p>
+                </div>
+            `;
+        }
+
+        document.getElementById('notification-modal-body').innerHTML = html;
+        document.getElementById('notification-modal').classList.add('open');
+    }
+
+    function closeNotificationModal() {
+        document.getElementById('notification-modal').classList.remove('open');
     }
 
     let bookingStepData = { date: '', time: '', hall: '', adult: 1, teen: 0, senior: 0, special: 0, seats: [], payment: '신용/체크카드' };
@@ -911,7 +1056,7 @@
             img: selectedMovieForBooking.img || './images/logo.png'
         });
         document.getElementById('booking-modal').classList.remove('open');
-        alert('영화 예매 및 결제가 완료되었습니다! 우측 상단 내역함에서 확인하세요.');
+        alert('영화 예매 및 결제가 완료되었습니다! 우측 상단 내역함 및 알림에서 확인하세요.');
     }
 
     function renderStoreMenus() {
@@ -1120,7 +1265,7 @@
             img: storePayData.img
         });
         document.getElementById('store-payment-modal').classList.remove('open');
-        alert('모바일 오더 결제가 완료되었습니다! 우측 상단 내역함에서 확인하세요.');
+        alert('모바일 오더 결제가 완료되었습니다! 우측 상단 알림 및 내역함에서 확인하세요.');
     }
 
     function openHistoryModal() {
@@ -1129,7 +1274,9 @@
         if(myBookings.length === 0) {
             html += '<p style="color:#94a3b8; font-size:12px; margin-bottom:20px;">예매 내역이 없습니다.</p>';
         } else {
-            html += myBookings.map(b => `
+            let sortedBookings = [...myBookings].sort((a, b) => a.time.localeCompare(b.time));
+
+            html += sortedBookings.map(b => `
                 <div class="ticket-card">
                     <div style="position:absolute; top:0; left:0; width:100%; height:6px; background:var(--mint-primary);"></div>
                     <img src="${b.img}" alt="포스터" class="ticket-poster-big">
