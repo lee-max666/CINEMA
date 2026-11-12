@@ -73,7 +73,40 @@
         }
         .logo-img { height: 42px; cursor: pointer; object-fit: contain; }
         .header-icons { display: flex; gap: 16px; align-items: center; }
-        .header-icons svg { width: 22px; height: 22px; fill: var(--mint-primary); cursor: pointer; }
+        
+        /* 아이콘 뱃지 및 반짝이는 모션 스타일 */
+        .icon-btn-wrap {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+        .icon-btn-wrap svg { width: 22px; height: 22px; fill: var(--mint-primary); }
+
+        .badge-dot {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            background-color: var(--danger-color);
+            border-radius: 50%;
+            display: none;
+            box-shadow: 0 0 0 2px #fff;
+        }
+        .badge-dot.active {
+            display: block;
+            animation: pulseGlow 1.2s infinite ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
 
         .content-scroll {
             flex: 1;
@@ -312,11 +345,19 @@
         <img src="./images/logo.png" alt="MINT CINEMA PLUS" class="logo-img" onclick="switchTab('home')">
         <div class="header-icons">
             <!-- 검색 아이콘 -->
-            <svg onclick="openSearchModal()" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-            <!-- 알림 아이콘 -->
-            <svg onclick="openNotificationModal()" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
-            <!-- 티켓 내역 아이콘 -->
-            <svg onclick="openHistoryModal()" viewBox="0 0 24 24"><path d="M22 10V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2zm-9 7.5h-2v-2h2v2zm0-4.5h-2v-2h2v2zm0-4.5h-2v-2h2v2z"/></svg>
+            <div class="icon-btn-wrap" onclick="openSearchModal()">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </div>
+            <!-- 알림 아이콘 (반짝이는 불 뱃지 추가) -->
+            <div class="icon-btn-wrap" onclick="openNotificationModal()">
+                <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+                <div id="notif-badge" class="badge-dot"></div>
+            </div>
+            <!-- 티켓 내역 아이콘 (반짝이는 불 뱃지 추가) -->
+            <div class="icon-btn-wrap" onclick="openHistoryModal()">
+                <svg viewBox="0 0 24 24"><path d="M22 10V6c0-1.1-.9-2-2-2H4c-1.1 0-1.99.9-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2zm-9 7.5h-2v-2h2v2zm0-4.5h-2v-2h2v2zm0-4.5h-2v-2h2v2z"/></svg>
+                <div id="history-badge" class="badge-dot"></div>
+            </div>
         </div>
     </header>
 
@@ -579,7 +620,7 @@
 
     let myBookings = [];
     let myStoreOrders = [];
-    let cancelledBookings = []; // 취소된 내역 기록용
+    let cancelledBookings = [];
     let selectedMovieForBooking = null;
 
     window.onload = function() {
@@ -587,7 +628,22 @@
         renderBookingMovieList();
         renderStoreMenus();
         setupDraggableScroll();
+        updateBadges();
     };
+
+    function updateBadges() {
+        const hasNewActivity = (myBookings.length > 0 || myStoreOrders.length > 0 || cancelledBookings.length > 0);
+        const notifBadge = document.getElementById('notif-badge');
+        const historyBadge = document.getElementById('history-badge');
+
+        if (hasNewActivity) {
+            notifBadge.classList.add('active');
+            historyBadge.classList.add('active');
+        } else {
+            notifBadge.classList.remove('active');
+            historyBadge.classList.remove('active');
+        }
+    }
 
     function openEventModal(title, imgSrc, textDesc) {
         document.getElementById('modal-event-title').textContent = title;
@@ -1104,6 +1160,7 @@
             img: selectedMovieForBooking.img || './images/logo.png'
         });
         document.getElementById('booking-modal').classList.remove('open');
+        updateBadges();
         alert('영화 예매 및 결제가 완료되었습니다! 우측 상단 알림 및 내역함에서 확인하세요.');
     }
 
@@ -1113,8 +1170,9 @@
             if(index !== -1) {
                 const cancelledItem = myBookings.splice(index, 1)[0];
                 cancelledBookings.push(cancelledItem);
+                updateBadges();
                 alert('예매가 성공적으로 취소되었습니다.');
-                openHistoryModal(); // 내역 창 새로고침
+                openHistoryModal();
             }
         }
     }
@@ -1325,6 +1383,7 @@
             img: storePayData.img
         });
         document.getElementById('store-payment-modal').classList.remove('open');
+        updateBadges();
         alert('모바일 오더 결제가 완료되었습니다! 우측 상단 알림 및 내역함에서 확인하세요.');
     }
 
