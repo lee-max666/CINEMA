@@ -112,7 +112,7 @@
         .poster-title { font-size: 15px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--choco-dark); }
         .poster-info { font-size: 13px; color: #64748b; margin-top: 3px; display: flex; justify-content: space-between; }
 
-        /* 이벤트 카드 스타일 (인스타 피드 1:1 정방향) */
+        /* 이벤트 카드 스타일 */
         .event-grid { display: flex; flex-direction: column; gap: 12px; }
         .event-card {
             background: #fff; border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; display: flex; align-items: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
@@ -197,7 +197,21 @@
         .primary-btn:disabled { background-color: #cbd5e1; cursor: not-allowed; }
 
         .slim-btn {
-            background-color: var(--mint-primary); color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;
+            background-color: var(--mint-primary); color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; flex-shrink: 0;
+        }
+
+        /* 예매 탭 영화 카드 확대 스타일 */
+        .booking-movie-card {
+            background: #fff; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-bottom: 12px; display: flex; gap: 16px; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+        .booking-movie-poster {
+            width: 95px; height: 135px; border-radius: 8px; object-fit: cover; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .booking-movie-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; min-height: 125px; }
+        .booking-movie-title { font-weight: 900; font-size: 16px; color: var(--choco-dark); margin-bottom: 6px; line-height: 1.3; }
+        .booking-movie-rate { font-size: 13px; color: #64748b; margin-bottom: 12px; }
+        .booking-movie-btn {
+            background-color: var(--mint-primary); color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; width: 100%; text-align: center;
         }
 
         .date-tabs { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; }
@@ -205,9 +219,9 @@
         .date-tab.active { background: var(--mint-primary); color: #fff; border-color: var(--mint-primary); }
 
         .hall-group { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
-        .hall-title { font-size: 13px; font-weight: bold; margin-bottom: 8px; color: var(--choco-dark); border-bottom: 1px solid #f1f5f9; padding-bottom: 4px; }
-        .time-slots { display: flex; gap: 6px; flex-wrap: wrap; }
-        .time-chip { background: var(--bg-gray); border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; }
+        .hall-title { font-size: 14px; font-weight: bold; margin-bottom: 10px; color: var(--choco-dark); border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+        .time-slots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .time-chip { background: var(--bg-gray); border: 1px solid var(--border-color); padding: 10px 8px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px; }
         .time-chip.selected { background: var(--mint-light); border-color: var(--mint-primary); color: #047857; }
 
         .person-counter { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 10px 14px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--border-color); font-size: 13px; }
@@ -225,11 +239,14 @@
         .pay-btn { background: #fff; border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; text-align: center; font-size: 12px; font-weight: bold; cursor: pointer; }
         .pay-btn.selected { border-color: var(--mint-primary); background: var(--mint-light); color: #047857; }
 
-        .store-section-title { font-size: 14px; font-weight: bold; margin: 16px 0 8px 0; color: var(--choco-dark); border-left: 3px solid var(--mint-primary); padding-left: 6px; }
-        .store-item-card { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
-        .store-item-top { display: flex; justify-content: space-between; font-weight: bold; font-size: 13px; margin-bottom: 6px; align-items: center; }
-        .option-group { font-size: 11px; color: #475569; margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
-        .option-group select { padding: 4px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 11px; }
+        /* 매점 아이템 카드 & 이미지 스타일 */
+        .store-section-title { font-size: 15px; font-weight: 900; margin: 18px 0 10px 0; color: var(--choco-dark); border-left: 3px solid var(--mint-primary); padding-left: 8px; }
+        .store-item-card { background: #fff; border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; margin-bottom: 10px; display: flex; gap: 12px; align-items: flex-start; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .store-item-img { width: 76px; height: 76px; border-radius: 8px; object-fit: cover; background: #f1f5f9; flex-shrink: 0; border: 1px solid var(--border-color); }
+        .store-item-body { flex: 1; min-width: 0; }
+        .store-item-top { display: flex; justify-content: space-between; font-weight: bold; font-size: 13px; margin-bottom: 4px; align-items: flex-start; gap: 6px; }
+        .option-group { font-size: 11px; color: #475569; margin-top: 6px; display: flex; flex-direction: column; gap: 5px; }
+        .option-group select { padding: 4px 6px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 11px; background: #fff; }
 
         .history-card { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; }
     </style>
@@ -569,14 +586,17 @@
         startBookingProcess();
     }
 
+    // 예매 탭 영화 목록: 포스터 및 전체 카드 사이즈 확대
     function renderBookingMovieList() {
         document.getElementById('booking-movie-list').innerHTML = nowMovies.map(m => `
-            <div style="background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:12px; margin-bottom:10px; display:flex; gap:12px; align-items:center;">
-                <img src="${m.img}" style="width:50px; height:70px; border-radius:4px; object-fit:cover;">
-                <div style="flex:1;">
-                    <div style="font-weight:bold; font-size:14px; margin-bottom:4px;">${m.id}. ${m.title}</div>
-                    <div style="font-size:11px; color:#64748b; margin-bottom:8px;">예매율 ${m.rate}</div>
-                    <button class="slim-btn" onclick="selectMovieDirect(${m.id})">바로예매</button>
+            <div class="booking-movie-card">
+                <img src="${m.img}" alt="${m.title}" class="booking-movie-poster">
+                <div class="booking-movie-info">
+                    <div>
+                        <div class="booking-movie-title">${m.id}. ${m.title}</div>
+                        <div class="booking-movie-rate">예매율 <b>${m.rate}</b> · ⭐ 9.0</div>
+                    </div>
+                    <button class="booking-movie-btn" onclick="selectMovieDirect(${m.id})">바로예매</button>
                 </div>
             </div>
         `).join('');
@@ -594,6 +614,13 @@
         renderStepTimeSelection();
     }
 
+    // 시간대별 조조(☀️ 12시 이전) / 심야(🌙 18시 이후) 아이콘 헬퍼
+    function getTimeIcon(startHour) {
+        if (startHour < 12) return '☀️ ';
+        if (startHour >= 18) return '🌙 ';
+        return '';
+    }
+
     function renderStepTimeSelection() {
         const today = new Date();
         let datesHtml = '';
@@ -608,39 +635,72 @@
         }
         bookingStepData.date = selectedDateStr;
 
+        // 오전 07:00 ~ 새벽 02:00 상영관별 시간표 데이터 (영화별 겹치지 않게 분배)
+        const halls = [
+            {
+                name: '리클라이너관',
+                slots: [
+                    { hour: 7, label: '07:10 - 09:20' },
+                    { hour: 10, label: '10:00 - 12:10' },
+                    { hour: 13, label: '13:00 - 15:10' },
+                    { hour: 16, label: '16:10 - 18:20' },
+                    { hour: 19, label: '19:20 - 21:30' },
+                    { hour: 23, label: '23:50 - 02:00' }
+                ]
+            },
+            {
+                name: '4DX관',
+                slots: [
+                    { hour: 8, label: '08:00 - 10:10' },
+                    { hour: 11, label: '11:00 - 13:10' },
+                    { hour: 14, label: '14:20 - 16:30' },
+                    { hour: 18, label: '18:00 - 20:10' },
+                    { hour: 21, label: '21:10 - 23:20' }
+                ]
+            },
+            {
+                name: 'ScreenX관',
+                slots: [
+                    { hour: 7, label: '07:40 - 09:50' },
+                    { hour: 10, label: '10:30 - 12:40' },
+                    { hour: 13, label: '13:30 - 15:40' },
+                    { hour: 17, label: '17:00 - 19:10' },
+                    { hour: 20, label: '20:10 - 22:20' },
+                    { hour: 23, label: '23:30 - 01:40' }
+                ]
+            },
+            {
+                name: 'Dolby Cinema관',
+                slots: [
+                    { hour: 8, label: '08:30 - 10:40' },
+                    { hour: 11, label: '11:30 - 13:40' },
+                    { hour: 15, label: '15:00 - 17:10' },
+                    { hour: 18, label: '18:30 - 20:40' },
+                    { hour: 22, label: '22:00 - 00:10' }
+                ]
+            }
+        ];
+
+        const hallsHtml = halls.map(h => `
+            <div class="hall-group">
+                <div class="hall-title">${h.name}</div>
+                <div class="time-slots">
+                    ${h.slots.map(s => {
+                        const icon = getTimeIcon(s.hour);
+                        return `<div class="time-chip" onclick="selectTimeSlot(this, '${h.name}', '${s.label}')">${icon}${s.label}</div>`;
+                    }).join('')}
+                </div>
+            </div>
+        `).join('');
+
         document.getElementById('booking-modal-body').innerHTML = `
             <div style="font-weight:bold; font-size:13px; margin-bottom:8px;">날짜 선택</div>
             <div class="date-tabs">${datesHtml}</div>
-            <div style="font-weight:bold; font-size:13px; margin-bottom:8px;">상영관 및 시간 선택</div>
-            
-            <div class="hall-group">
-                <div class="hall-title">리클라이너관</div>
-                <div class="time-slots">
-                    <div class="time-chip" onclick="selectTimeSlot(this, '리클라이너관', '10:00 - 12:10')">10:00</div>
-                    <div class="time-chip" onclick="selectTimeSlot(this, '리클라이너관', '13:00 - 15:10')">13:00</div>
-                </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-weight:bold; font-size:13px;">상영관 및 시간 선택</span>
+                <span style="font-size:11px; color:#64748b;">☀️ 조조(~12시) · 🌙 심야(18시~)</span>
             </div>
-            <div class="hall-group">
-                <div class="hall-title">4DX관</div>
-                <div class="time-slots">
-                    <div class="time-chip" onclick="selectTimeSlot(this, '4DX관', '11:00 - 13:10')">11:00</div>
-                    <div class="time-chip" onclick="selectTimeSlot(this, '4DX관', '14:20 - 16:30')">14:20</div>
-                </div>
-            </div>
-            <div class="hall-group">
-                <div class="hall-title">스크린X관</div>
-                <div class="time-slots">
-                    <div class="time-chip" onclick="selectTimeSlot(this, '스크린X관', '09:30 - 11:40')">09:30</div>
-                    <div class="time-chip" onclick="selectTimeSlot(this, '스크린X관', '12:30 - 14:40')">12:30</div>
-                </div>
-            </div>
-            <div class="hall-group">
-                <div class="hall-title">돌비관</div>
-                <div class="time-slots">
-                    <div class="time-chip" onclick="selectTimeSlot(this, '돌비관', '10:30 - 12:40')">10:30</div>
-                    <div class="time-chip" onclick="selectTimeSlot(this, '돌비관', '13:50 - 16:00')">13:50</div>
-                </div>
-            </div>
+            ${hallsHtml}
             <button class="primary-btn" id="to-person-btn" disabled onclick="renderStepPersonSelection()">인원 선택으로 이동</button>
         `;
     }
@@ -660,13 +720,18 @@
     }
 
     function renderStepPersonSelection() {
+        bookingStepData.adult = 1;
+        bookingStepData.teen = 0;
+        bookingStepData.senior = 0;
+        bookingStepData.special = 0;
+
         document.getElementById('booking-modal-body').innerHTML = `
-            <div style="font-weight:bold; font-size:14px; margin-bottom:12px;">관람 인원 선택</div>
+            <div style="font-weight:bold; font-size:14px; margin-bottom:12px;">관람 인원 선택 (총 <span id="total-person-cnt" style="color:var(--mint-primary);">1</span>명)</div>
             <div class="person-counter"><span>성인 (14,000원)</span><div class="counter-btns"><button onclick="changePerson('adult', -1)">-</button><span id="cnt-adult">1</span><button onclick="changePerson('adult', 1)">+</button></div></div>
             <div class="person-counter"><span>청소년 (11,000원)</span><div class="counter-btns"><button onclick="changePerson('teen', -1)">-</button><span id="cnt-teen">0</span><button onclick="changePerson('teen', 1)">+</button></div></div>
             <div class="person-counter"><span>경로 (8,000원)</span><div class="counter-btns"><button onclick="changePerson('senior', -1)">-</button><span id="cnt-senior">0</span><button onclick="changePerson('senior', 1)">+</button></div></div>
             <div class="person-counter"><span>우대 (7,000원)</span><div class="counter-btns"><button onclick="changePerson('special', -1)">-</button><span id="cnt-special">0</span><button onclick="changePerson('special', 1)">+</button></div></div>
-            <button class="primary-btn" onclick="renderStepSeatSelection()">좌석 선택으로 이동</button>
+            <button class="primary-btn" id="to-seat-btn" onclick="renderStepSeatSelection()">좌석 선택으로 이동</button>
         `;
     }
 
@@ -675,11 +740,14 @@
         if(type === 'teen') bookingStepData.teen = Math.max(0, bookingStepData.teen + delta);
         if(type === 'senior') bookingStepData.senior = Math.max(0, bookingStepData.senior + delta);
         if(type === 'special') bookingStepData.special = Math.max(0, bookingStepData.special + delta);
-        if((bookingStepData.adult + bookingStepData.teen + bookingStepData.senior + bookingStepData.special) === 0) bookingStepData.adult = 1;
+
+        const total = bookingStepData.adult + bookingStepData.teen + bookingStepData.senior + bookingStepData.special;
         document.getElementById('cnt-adult').textContent = bookingStepData.adult;
         document.getElementById('cnt-teen').textContent = bookingStepData.teen;
         document.getElementById('cnt-senior').textContent = bookingStepData.senior;
         document.getElementById('cnt-special').textContent = bookingStepData.special;
+        document.getElementById('total-person-cnt').textContent = total;
+        document.getElementById('to-seat-btn').disabled = (total === 0);
     }
 
     function renderStepSeatSelection() {
@@ -719,7 +787,6 @@
     }
 
     function renderStepPayment() {
-        let totalPersons = bookingStepData.adult + bookingStepData.teen + bookingStepData.senior + bookingStepData.special;
         let totalPrice = (bookingStepData.adult * 14000) + (bookingStepData.teen * 11000) + (bookingStepData.senior * 8000) + (bookingStepData.special * 7000);
 
         document.getElementById('booking-modal-body').innerHTML = `
@@ -762,71 +829,78 @@
     }
 
     function renderStoreMenus() {
+        // 1. 콤보 메뉴 (store_combo1~3.jpg 연동)
         const combos = [
-            { id: 'c1', name: '더블콤보', desc: '팝콘 소 2 + 음료 2', price: 12000 },
-            { id: 'c2', name: '러브콤보', desc: '팝콘 대 1 + 음료 2', price: 11000 },
-            { id: 'c3', name: '즉석구이 콤보', desc: '팝콘 소 1 + 즉석구이 1 + 음료 2', price: 14000 }
+            { id: 'c1', name: '더블콤보', desc: '팝콘 소 2 + 음료 2', price: 12000, img: './images/store_combo1.jpg' },
+            { id: 'c2', name: '러브콤보', desc: '팝콘 대 1 + 음료 2', price: 11000, img: './images/store_combo2.jpg' },
+            { id: 'c3', name: '즉석구이 콤보', desc: '팝콘 소 1 + 즉석구이 1 + 음료 2', price: 14000, img: './images/store_combo3.jpg' }
         ];
 
         document.getElementById('combo-list').innerHTML = combos.map(c => `
             <div class="store-item-card">
-                <div class="store-item-top">
-                    <span>${c.name} (${c.price.toLocaleString()}원)</span>
-                    <button class="slim-btn" onclick="openStorePayment('${c.name}', ${c.price}, '${c.id}')">바로결제</button>
-                </div>
-                <div style="font-size:11px; color:#64748b; margin-bottom:6px;">${c.desc}</div>
-                <div class="option-group">
-                    <label>팝콘 맛: 
-                        <select id="combo-pop-${c.id}">
-                            <option value="솔트">솔트</option>
-                            <option value="더블카라멜 (+1000원)">더블카라멜 (+1,000원)</option>
-                            <option value="치즈 (+500원)">치즈 (+500원)</option>
-                            <option value="갈릭 (+500원)">갈릭 (+500원)</option>
-                        </select>
-                    </label>
-                    <label>음료: 
-                        <select id="combo-drink-${c.id}">
-                            <option value="코카콜라 R">코카콜라 R</option>
-                            <option value="코카콜라 L (+500원)">코카콜라 L (+500원)</option>
-                            <option value="스프라이트 R">스프라이트 R</option>
-                            <option value="스프라이트 L (+500원)">스프라이트 L (+500원)</option>
-                            <option value="오렌지 에이드 L">오렌지 에이드 L</option>
-                            <option value="무화과 에이드 L">무화과 에이드 L</option>
-                            <option value="초코라떼 L (아이스)">초코라떼 L (아이스)</option>
-                            <option value="초코라떼 L (핫)">초코라떼 L (핫)</option>
-                            <option value="커피 L (아이스)">커피 L (아이스)</option>
-                            <option value="커피 L (핫)">커피 L (핫)</option>
-                        </select>
-                    </label>
+                <img src="${c.img}" alt="${c.name}" class="store-item-img">
+                <div class="store-item-body">
+                    <div class="store-item-top">
+                        <span>${c.name}<br><span style="color:var(--mint-primary);">${c.price.toLocaleString()}원</span></span>
+                        <button class="slim-btn" onclick="openStorePayment('${c.name}', ${c.price}, '${c.id}')">바로결제</button>
+                    </div>
+                    <div style="font-size:11px; color:#64748b; margin-bottom:4px;">${c.desc}</div>
+                    <div class="option-group">
+                        <label>팝콘 맛: 
+                            <select id="combo-pop-${c.id}">
+                                <option value="솔트">솔트</option>
+                                <option value="더블카라멜 (+1000원)">더블카라멜 (+1,000원)</option>
+                                <option value="치즈 (+500원)">치즈 (+500원)</option>
+                                <option value="갈릭 (+500원)">갈릭 (+500원)</option>
+                            </select>
+                        </label>
+                        <label>음료: 
+                            <select id="combo-drink-${c.id}">
+                                <option value="코카콜라 R">코카콜라 R</option>
+                                <option value="코카콜라 L (+500원)">코카콜라 L (+500원)</option>
+                                <option value="스프라이트 R">스프라이트 R</option>
+                                <option value="스프라이트 L (+500원)">스프라이트 L (+500원)</option>
+                                <option value="오렌지 에이드 L">오렌지 에이드 L</option>
+                                <option value="무화과 에이드 L">무화과 에이드 L</option>
+                                <option value="초코라떼 L (아이스)">초코라떼 L (아이스)</option>
+                                <option value="초코라떼 L (핫)">초코라떼 L (핫)</option>
+                                <option value="커피 L (아이스)">커피 L (아이스)</option>
+                                <option value="커피 L (핫)">커피 L (핫)</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
             </div>
         `).join('');
 
-        // 팝콘 단품 순서 수정: 1. 솔트 2. 더블카라멜 3. 치즈 4. 갈릭
+        // 2. 팝콘 단품 순서: 1. 솔트(store_pop2.jpg) 2. 더블카라멜(store_pop1.jpg) 3. 치즈(store_pop4.jpg) 4. 갈릭(store_pop3.jpg)
         const popcorns = [
-            { name: '솔트 팝콘', price: 5500 },
-            { name: '더블카라멜 팝콘', price: 6500 },
-            { name: '치즈 팝콘', price: 6000 },
-            { name: '갈릭 팝콘', price: 6000 }
+            { name: '솔트 팝콘', price: 5500, img: './images/store_pop2.jpg' },
+            { name: '더블카라멜 팝콘', price: 6500, img: './images/store_pop1.jpg' },
+            { name: '치즈 팝콘', price: 6000, img: './images/store_pop4.jpg' },
+            { name: '갈릭 팝콘', price: 6000, img: './images/store_pop3.jpg' }
         ];
         document.getElementById('popcorn-list').innerHTML = popcorns.map((p, idx) => `
-            <div class="store-item-card" style="display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                    <div style="font-weight:bold; font-size:13px;">${idx+1}. ${p.name}</div>
-                    <div style="color:var(--mint-primary); font-size:12px; font-weight:bold;">${p.price.toLocaleString()}원</div>
+            <div class="store-item-card" style="align-items:center;">
+                <img src="${p.img}" alt="${p.name}" class="store-item-img">
+                <div class="store-item-body" style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <div style="font-weight:bold; font-size:13px; margin-bottom:4px;">${idx+1}. ${p.name}</div>
+                        <div style="color:var(--mint-primary); font-size:13px; font-weight:bold;">${p.price.toLocaleString()}원</div>
+                    </div>
+                    <button class="slim-btn" onclick="openStorePayment('${p.name}', ${p.price})">바로결제</button>
                 </div>
-                <button class="slim-btn" onclick="openStorePayment('${p.name}', ${p.price})">바로결제</button>
             </div>
         `).join('');
 
-        // 음료 목록 및 옵션(사이즈/아이스·핫) 세분화
+        // 3. 음료 메뉴 순서: 1. 코카콜라(store_drink1.jpg) 2. 스프라이트(store_drink2.jpg) 3. 오렌지 에이드(store_drink6.jpg) 4. 무화과 에이드(store_drink5.jpg) 5. 초코라떼(store_drink3.jpg) 6. 커피(store_drink4.jpg)
         const drinks = [
-            { id: 'd1', name: '코카콜라', price: 3000, hasSize: true },
-            { id: 'd2', name: '스프라이트', price: 3000, hasSize: true },
-            { id: 'd3', name: '오렌지 에이드', price: 4500, fixed: 'L' },
-            { id: 'd4', name: '무화과 에이드', price: 4500, fixed: 'L' },
-            { id: 'd5', name: '초코라떼', price: 4500, hasTemp: true },
-            { id: 'd6', name: '커피', price: 4000, hasTemp: true }
+            { id: 'd1', name: '코카콜라', price: 3000, hasSize: true, img: './images/store_drink1.jpg' },
+            { id: 'd2', name: '스프라이트', price: 3000, hasSize: true, img: './images/store_drink2.jpg' },
+            { id: 'd3', name: '오렌지 에이드', price: 4500, fixed: 'L', img: './images/store_drink6.jpg' },
+            { id: 'd4', name: '무화과 에이드', price: 4500, fixed: 'L', img: './images/store_drink5.jpg' },
+            { id: 'd5', name: '초코라떼', price: 4500, hasTemp: true, img: './images/store_drink3.jpg' },
+            { id: 'd6', name: '커피', price: 4000, hasTemp: true, img: './images/store_drink4.jpg' }
         ];
 
         document.getElementById('drink-list').innerHTML = drinks.map((d, idx) => {
@@ -854,12 +928,15 @@
             }
 
             return `
-                <div class="store-item-card">
-                    <div class="store-item-top">
-                        <span>${idx+1}. ${d.name} ${d.fixed ? '('+d.fixed+')' : ''} (${d.price.toLocaleString()}원)</span>
-                        <button class="slim-btn" onclick="openDrinkPayment('${d.name}', ${d.price}, '${d.id}', '${d.fixed || ''}')">바로결제</button>
+                <div class="store-item-card" style="align-items:center;">
+                    <img src="${d.img}" alt="${d.name}" class="store-item-img">
+                    <div class="store-item-body">
+                        <div class="store-item-top" style="align-items:center;">
+                            <span>${idx+1}. ${d.name} ${d.fixed ? '('+d.fixed+')' : ''}<br><span style="color:var(--mint-primary);">${d.price.toLocaleString()}원</span></span>
+                            <button class="slim-btn" onclick="openDrinkPayment('${d.name}', ${d.price}, '${d.id}', '${d.fixed || ''}')">바로결제</button>
+                        </div>
+                        ${optionHtml}
                     </div>
-                    ${optionHtml}
                 </div>
             `;
         }).join('');
@@ -873,6 +950,8 @@
             let popOpt = document.getElementById(`combo-pop-${id}`).value;
             let drkOpt = document.getElementById(`combo-drink-${id}`).value;
             finalName = `${name} [${popOpt} / ${drkOpt}]`;
+            if(popOpt.includes('+1000원')) price += 1000;
+            if(popOpt.includes('+500원')) price += 500;
             if(drkOpt.includes('+500원')) price += 500;
         }
         storePayData = { name: finalName, price: price, payment: '신용/체크카드' };
