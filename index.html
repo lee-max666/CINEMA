@@ -164,7 +164,7 @@
         .footer-about h3 { color: #fff; font-size: 13px; margin-bottom: 8px; font-weight: bold; }
         .footer-about p { margin-bottom: 4px; color: #94a3b8; }
 
-        /* 하단 고정 네비게이션바 아이콘 컬러: 초코 갈색(#271c19) */
+        /* 하단 고정 네비게이션바 아이콘 컬러: 초코 갈색(#271c19) 깔맞춤 */
         .bottom-nav {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background-color: #fff; border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; z-index: 10;
         }
@@ -250,7 +250,31 @@
         .option-group { font-size: 11px; color: #475569; margin-top: 6px; display: flex; flex-direction: column; gap: 5px; }
         .option-group select { padding: 4px 6px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 11px; background: #fff; }
 
-        .history-card { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; }
+        /* 프리미엄 모바일 티켓 및 주문 내역 카드 스타일 (QR 코드 포함) */
+        .ticket-card {
+            background: #fff; border: 1px solid var(--border-color); border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; gap: 14px; align-items: center; position: relative; overflow: hidden;
+        }
+        .ticket-card::before {
+            content: ''; position: absolute; left: 0; top: 0; width: 6px; height: 100%; background: var(--mint-primary);
+        }
+        .ticket-poster {
+            width: 75px; height: 105px; border-radius: 8px; object-fit: cover; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .ticket-info { flex: 1; font-size: 12px; color: #475569; line-height: 1.5; min-width: 0; }
+        .ticket-title { font-weight: 900; font-size: 15px; color: var(--choco-dark); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ticket-qr-box {
+            width: 55px; height: 55px; background: #f1f5f9; border: 1px dashed var(--mint-primary); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; text-align: center; padding: 4px;
+        }
+        .fake-qr {
+            font-family: monospace; font-size: 9px; line-height: 8px; font-weight: bold; color: var(--choco-dark); letter-spacing: -1px;
+        }
+
+        .store-order-card {
+            background: #fff; border: 1px solid var(--border-color); border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; gap: 14px; align-items: center; position: relative; overflow: hidden;
+        }
+        .store-order-card::before {
+            content: ''; position: absolute; left: 0; top: 0; width: 6px; height: 100%; background: #f59e0b;
+        }
     </style>
 </head>
 <body>
@@ -290,7 +314,7 @@
                 <div class="poster-scroll" id="soon-movies-scroll"></div>
             </div>
 
-            <!-- ONLY 독점작 -->
+            <!-- ONLY 독점작 (only3.png 파일 반영) -->
             <div id="subtab-only" class="section" style="display:none;">
                 <div class="section-title">민트 시네마플러스 독점 공연</div>
                 <div class="poster-scroll">
@@ -304,8 +328,8 @@
                         <div class="poster-title">비엔나 국립오페라 갈라 콘서트</div>
                         <div class="poster-info"><span>단독공연</span><span>⭐ 9.8</span></div>
                     </div>
-                    <div class="poster-card" onclick="openOnlyBooking('초코사탕', './images/only3.jpg')">
-                        <div class="poster-img"><img src="./images/only3.jpg" alt="초코사탕"><div class="rank-badge">EX</div></div>
+                    <div class="poster-card" onclick="openOnlyBooking('초코사탕', './images/only3.png')">
+                        <div class="poster-img"><img src="./images/only3.png" alt="초코사탕"><div class="rank-badge">EX</div></div>
                         <div class="poster-title">초코사탕</div>
                         <div class="poster-info"><span>단독뮤지컬</span><span>⭐ 9.9</span></div>
                     </div>
@@ -446,7 +470,7 @@
         <div class="modal-body" id="store-payment-modal-body"></div>
     </div>
 
-    <!-- 통합 내역 확인 모달 -->
+    <!-- 통합 내역 확인 모달 (프리미엄 스마트 티켓 및 QR 디자인 적용) -->
     <div id="history-modal" class="modal">
         <div class="modal-header">
             <div class="modal-title">나의 예매 및 매점 주문 내역</div>
@@ -458,7 +482,6 @@
 </div>
 
 <script>
-    /* 무비 차트 영화 10개별 현실 반영 평점 적용 */
     const nowMovies = [
         { id: 1, title: "명량", rate: "38%", rating: "9.1", img: "./images/now1.jpg" },
         { id: 2, title: "포레스트 검프", rate: "24%", rating: "9.5", img: "./images/now2.jpg" },
@@ -627,7 +650,6 @@
         return '';
     }
 
-    /* 영화 10개마다 상영 시간대가 겹치지 않도록 무작위 분배된 시간표 생성 함수 */
     function getMovieTimeSlots(movieId) {
         const masterSchedules = {
             1: [
@@ -692,7 +714,6 @@
             ]
         };
 
-        // 독점공연일 경우 (객체 타이틀 전달 시)
         if (typeof movieId === 'string') {
             return [
                 { hall: 'Boutique관', hour: 10, label: '10:00 - 12:30' },
@@ -719,11 +740,9 @@
         }
         bookingStepData.date = selectedDateStr;
 
-        // 선택한 영화의 고유 비중복 시간표 불러오기
         const movieIdentifier = selectedMovieForBooking.id || selectedMovieForBooking.title;
         const slots = getMovieTimeSlots(movieIdentifier);
 
-        // 상영관별로 분류
         const hallsMap = {
             '리클라이너관': [],
             '4DX관': [],
@@ -883,7 +902,7 @@
             seats: bookingStepData.seats.join(', '),
             payment: bookingStepData.payment,
             price: price,
-            img: selectedMovieForBooking.img
+            img: selectedMovieForBooking.img || './images/logo.png'
         });
         document.getElementById('booking-modal').classList.remove('open');
         alert('영화 예매 및 결제가 완료되었습니다! 우측 상단 내역함에서 확인하세요.');
@@ -1004,6 +1023,7 @@
 
     function openStorePayment(name, price, id) {
         let finalName = name;
+        let finalImg = './images/logo.png';
         if(id) {
             let popOpt = document.getElementById(`combo-pop-${id}`).value;
             let drkOpt = document.getElementById(`combo-drink-${id}`).value;
@@ -1011,8 +1031,16 @@
             if(popOpt.includes('+1000원')) price += 1000;
             if(popOpt.includes('+500원')) price += 500;
             if(drkOpt.includes('+500원')) price += 500;
+            if(id === 'c1') finalImg = './images/store_combo1.jpg';
+            else if(id === 'c2') finalImg = './images/store_combo2.jpg';
+            else if(id === 'c3') finalImg = './images/store_combo3.jpg';
+        } else {
+            if(name.includes('솔트')) finalImg = './images/store_pop2.jpg';
+            else if(name.includes('카라멜')) finalImg = './images/store_pop1.jpg';
+            else if(name.includes('치즈')) finalImg = './images/store_pop4.jpg';
+            else if(name.includes('갈릭')) finalImg = './images/store_pop3.jpg';
         }
-        storePayData = { name: finalName, price: price, payment: '신용/체크카드' };
+        storePayData = { name: finalName, price: price, payment: '신용/체크카드', img: finalImg };
 
         document.getElementById('store-payment-modal-body').innerHTML = `
             <div style="font-size:13px; background:#fff; border:1px solid var(--border-color); padding:12px; border-radius:8px; margin-bottom:12px;">
@@ -1043,7 +1071,15 @@
         }
 
         let finalName = fixed ? `${name} (${fixed})` : `${name} [${optVal}]`;
-        storePayData = { name: finalName, price: finalPrice, payment: '신용/체크카드' };
+        let finalImg = './images/logo.png';
+        if(id === 'd1') finalImg = './images/store_drink1.jpg';
+        else if(id === 'd2') finalImg = './images/store_drink2.jpg';
+        else if(id === 'd3') finalImg = './images/store_drink6.jpg';
+        else if(id === 'd4') finalImg = './images/store_drink5.jpg';
+        else if(id === 'd5') finalImg = './images/store_drink3.jpg';
+        else if(id === 'd6') finalImg = './images/store_drink4.jpg';
+
+        storePayData = { name: finalName, price: finalPrice, payment: '신용/체크카드', img: finalImg };
 
         document.getElementById('store-payment-modal-body').innerHTML = `
             <div style="font-size:13px; background:#fff; border:1px solid var(--border-color); padding:12px; border-radius:8px; margin-bottom:12px;">
@@ -1074,20 +1110,59 @@
             id: Date.now(),
             name: storePayData.name,
             price: storePayData.price,
-            payment: storePayData.payment
+            payment: storePayData.payment,
+            img: storePayData.img
         });
         document.getElementById('store-payment-modal').classList.remove('open');
         alert('모바일 오더 결제가 완료되었습니다! 우측 상단 내역함에서 확인하세요.');
     }
 
+    // 영화 예매 및 모바일 오더 내역함 (포스터 + 리얼한 가짜 QR코드 입장권 UI 적용)
     function openHistoryModal() {
-        let html = '<div style="font-weight:bold; font-size:14px; margin-bottom:8px;">🎟️ 영화 예매 내역</div>';
-        if(myBookings.length === 0) html += '<p style="color:#94a3b8; font-size:12px; margin-bottom:16px;">예매 내역이 없습니다.</p>';
-        else html += myBookings.map(b => `<div class="history-card" style="border-left:4px solid var(--mint-primary);"><div style="font-weight:bold;">${b.title}</div><div>상영관: ${b.hall} | 시간: ${b.time}</div><div>좌석: <b>${b.seats}</b></div><div>결제: ${b.payment} (${b.price.toLocaleString()}원)</div></div>`).join('');
+        let html = '<div style="font-weight:bold; font-size:15px; margin-bottom:12px; color:var(--choco-dark);">🎟️ 영화 예매 내역 (스마트 티켓)</div>';
+        
+        if(myBookings.length === 0) {
+            html += '<p style="color:#94a3b8; font-size:12px; margin-bottom:20px;">예매 내역이 없습니다.</p>';
+        } else {
+            html += myBookings.map(b => `
+                <div class="ticket-card">
+                    <img src="${b.img}" alt="포스터" class="ticket-poster">
+                    <div class="ticket-info">
+                        <div class="ticket-title">${b.title}</div>
+                        <div><b>상영관:</b> ${b.hall}</div>
+                        <div><b>일시:</b> ${b.time}</div>
+                        <div><b>좌석:</b> <span style="color:var(--mint-primary); font-weight:bold;">${b.seats}</span></div>
+                        <div><b>결제:</b> ${b.payment} (${b.price.toLocaleString()}원)</div>
+                    </div>
+                    <div class="ticket-qr-box">
+                        <div class="fake-qr">█▀█ █<br>▀▄ █▀<br>█ ▀█▄</div>
+                        <span style="font-size:8px; color:#64748b; margin-top:2px; font-weight:bold;">입장QR</span>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-        html += '<div style="font-weight:bold; font-size:14px; margin:16px 0 8px 0;">🍿 매점 주문 내역</div>';
-        if(myStoreOrders.length === 0) html += '<p style="color:#94a3b8; font-size:12px;">매점 주문 내역이 없습니다.</p>';
-        else html += myStoreOrders.map(o => `<div class="history-card" style="border-left:4px solid #f59e0b; display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:bold;">${o.name}</div><div style="font-size:11px; color:#64748b;">결제: ${o.payment} | 상태: 준비중</div></div><div style="color:var(--mint-primary); font-weight:bold;">${o.price.toLocaleString()}원</div></div>`).join('');
+        html += '<div style="font-weight:bold; font-size:15px; margin:20px 0 12px 0; color:var(--choco-dark);">🍿 매점 주문 내역 (픽업 교환권)</div>';
+        
+        if(myStoreOrders.length === 0) {
+            html += '<p style="color:#94a3b8; font-size:12px;">매점 주문 내역이 없습니다.</p>';
+        } else {
+            html += myStoreOrders.map(o => `
+                <div class="store-order-card">
+                    <img src="${o.img}" alt="상품" class="ticket-poster">
+                    <div class="ticket-info">
+                        <div class="ticket-title">${o.name}</div>
+                        <div><b>결제금액:</b> <span style="color:var(--mint-primary); font-weight:bold;">${o.price.toLocaleString()}원</span></div>
+                        <div><b>결제수단:</b> ${o.payment}</div>
+                        <div style="color:#f59e0b; font-weight:bold; margin-top:2px;">[상품 준비중] 매점 스크린 확인</div>
+                    </div>
+                    <div class="ticket-qr-box" style="border-color:#f59e0b;">
+                        <div class="fake-qr">▄█ ▀█<br>█▄ █▀<br>▀ █▄█</div>
+                        <span style="font-size:8px; color:#64748b; margin-top:2px; font-weight:bold;">픽업QR</span>
+                    </div>
+                </div>
+            `).join('');
+        }
 
         document.getElementById('history-modal-body').innerHTML = html;
         document.getElementById('history-modal').classList.add('open');
