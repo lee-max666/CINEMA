@@ -69,7 +69,7 @@
             border-bottom: 1px solid var(--border-color);
             z-index: 10;
         }
-        .logo-img { height: 42px; cursor: pointer; object-fit: contain; } /* 로고 크기 큼직하게 상향 */
+        .logo-img { height: 42px; cursor: pointer; object-fit: contain; }
         .header-icons { display: flex; gap: 16px; align-items: center; }
         .header-icons svg { width: 22px; height: 22px; fill: var(--mint-primary); cursor: pointer; }
 
@@ -204,11 +204,15 @@
             background-color: var(--mint-primary); color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; flex-shrink: 0;
         }
 
-        /* 검색 모달 스타일 */
+        /* 검색 입력 및 버튼 배치 영역 */
+        .search-bar-wrapper { display: flex; gap: 8px; margin-bottom: 14px; }
         .search-input-box {
-            width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; outline: none; background: #fff; margin-bottom: 14px;
+            flex: 1; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; outline: none; background: #fff;
         }
         .search-input-box:focus { border-color: var(--mint-primary); }
+        .search-action-btn {
+            background-color: var(--mint-primary); color: #fff; border: none; padding: 0 16px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; flex-shrink: 0;
+        }
 
         /* 알림 카드 스타일 */
         .notif-card {
@@ -295,7 +299,7 @@
 
 <div class="app-container">
 
-    <!-- 상단 바 (로고 크기 확대 및 민트 아이콘 적용) -->
+    <!-- 상단 바 -->
     <header class="header">
         <img src="./images/logo.png" alt="MINT CINEMA PLUS" class="logo-img" onclick="switchTab('home')">
         <div class="header-icons">
@@ -430,7 +434,7 @@
 
     </div>
 
-    <!-- 하단 고정 네비게이션바 (초코 갈색 깔맞춤 적용 - SVG 심볼) -->
+    <!-- 하단 고정 네비게이션바 -->
     <nav class="bottom-nav">
         <button class="nav-item active" onclick="switchTab('home')">
             <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -446,19 +450,22 @@
         </button>
     </nav>
 
-    <!-- 검색 모달 (영화, 개봉예정작, 독점작 통합 검색 및 바로예매 지원) -->
+    <!-- 검색 모달 (검색 버튼 추가 및 문구 정리) -->
     <div id="search-modal" class="modal">
         <div class="modal-header">
             <div class="modal-title">영화 통합 검색</div>
             <button class="close-btn" onclick="closeSearchModal()">✕</button>
         </div>
         <div class="modal-body">
-            <input type="text" id="search-keyword-input" class="search-input-box" placeholder="영화 제목을 입력하세요 (예: 명량, 듄, 치이카와)" oninput="filterSearchResults(this.value)">
+            <div class="search-bar-wrapper">
+                <input type="text" id="search-keyword-input" class="search-input-box" placeholder="영화 제목을 입력하세요" onkeypress="if(event.key === 'Enter') triggerSearch();">
+                <button class="search-action-btn" onclick="triggerSearch()">검색</button>
+            </div>
             <div id="search-results-container"></div>
         </div>
     </div>
 
-    <!-- 알림 모달 (스마트 남은 시간 및 준비중 알림) -->
+    <!-- 알림 모달 (줄바꿈 포맷팅 수정 완료) -->
     <div id="notification-modal" class="modal">
         <div class="modal-header">
             <div class="modal-title">알림 센터</div>
@@ -684,7 +691,7 @@
         openNoticePopup(movieId);
     }
 
-    // --- 검색 기능 관련 로직 ---
+    // --- 검색 기능 관련 로직 (버튼 및 엔터키 지원) ---
     function openSearchModal() {
         document.getElementById('search-keyword-input').value = '';
         document.getElementById('search-results-container').innerHTML = '<p style="color:#94a3b8; font-size:13px; text-align:center; margin-top:20px;">검색어를 입력하시면 영화 목록이 표시됩니다.</p>';
@@ -693,6 +700,11 @@
 
     function closeSearchModal() {
         document.getElementById('search-modal').classList.remove('open');
+    }
+
+    function triggerSearch() {
+        const keyword = document.getElementById('search-keyword-input').value;
+        filterSearchResults(keyword);
     }
 
     function filterSearchResults(keyword) {
@@ -730,24 +742,22 @@
         `).join('');
     }
 
-    // --- 알림 센터 로직 (시간 기준 남은 시간 & 매점 준비중 표시) ---
+    // --- 알림 센터 로직 (줄바꿈 수정 반영) ---
     function openNotificationModal() {
         let html = '';
-        let hasContent = false;
 
         if (myBookings.length > 0 || myStoreOrders.length > 0) {
-            hasContent = true;
-
-            // 예매 영화 알림 (현재 시간 기준 잔여 시간 계산)
             let sortedBookings = [...myBookings].sort((a, b) => a.time.localeCompare(b.time));
+            
             sortedBookings.forEach(b => {
                 html += `
                     <div class="notif-card">
                         <div class="notif-icon">🎬</div>
                         <div style="flex:1;">
                             <div style="font-weight:bold; font-size:13px; color:var(--choco-dark); margin-bottom:2px;">[영화 상영 안내] ${b.title}</div>
-                            <div style="font-size:12px; color:#475569; line-height:1.4;">
-                                선택하신 상영 일시(<b style="color:var(--mint-primary);">${b.time}</b>) 기준으로 예매가 확정되었습니다.<br>
+                            <div style="font-size:12px; color:#475569; line-height:1.5;">
+                                선택하신 상영 일시 (<b style="color:var(--mint-primary);">${b.time}</b>)<br>
+                                기준으로 예매가 확정되었습니다.<br>
                                 상영시간 15분 전 게이트 입장을 준비해주세요!
                             </div>
                         </div>
@@ -755,14 +765,13 @@
                 `;
             });
 
-            // 매점 주문 알림
             myStoreOrders.forEach(o => {
                 html += `
                     <div class="notif-card">
                         <div class="notif-icon">🍿</div>
                         <div style="flex:1;">
                             <div style="font-weight:bold; font-size:13px; color:var(--choco-dark); margin-bottom:2px;">[매점 오더 접수] ${o.name}</div>
-                            <div style="font-size:12px; color:#475569; line-height:1.4;">
+                            <div style="font-size:12px; color:#475569; line-height:1.5;">
                                 주문하신 메뉴가 정상 접수되었습니다.<br>
                                 <span style="color:#f59e0b; font-weight:bold;">[상품 준비중]</span> 조리가 완료되면 스크린 및 번호표를 확인해주세요.
                             </div>
@@ -1056,7 +1065,7 @@
             img: selectedMovieForBooking.img || './images/logo.png'
         });
         document.getElementById('booking-modal').classList.remove('open');
-        alert('영화 예매 및 결제가 완료되었습니다! 우측 상단 내역함 및 알림에서 확인하세요.');
+        alert('영화 예매 및 결제가 완료되었습니다! 우측 상단 알림 및 내역함에서 확인하세요.');
     }
 
     function renderStoreMenus() {
