@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MINT CINEMA</title>
+    <title>MINT CINEMA PLUS</title>
     <style>
         :root {
-            --mint-primary: #10b981;
-            --mint-light: #f0fdf4;
-            --choco-dark: #271c19;
+            --mint-primary: #1dbdb0; /* 요청하신 민트 컬러 */
+            --mint-light: #e6fcfb;   /* 연한 민트 배경 */
+            --choco-dark: #271c19;  /* 딥 초코 텍스트/포인트 */
             --bg-white: #ffffff;
-            --bg-gray: #f9fafb;
-            --border-color: #e5e7eb;
+            --bg-gray: #f8fafc;
+            --border-color: #e2e8f0;
         }
 
         * {
@@ -63,7 +63,7 @@
             z-index: 10;
         }
         .logo { font-size: 16px; font-weight: 900; color: var(--choco-dark); letter-spacing: -0.5px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-        .logo span { background: #10b981; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+        .logo span { background: var(--mint-primary); color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
         .header-icons { display: flex; gap: 14px; font-size: 18px; cursor: pointer; }
 
         .content-scroll {
@@ -75,32 +75,47 @@
         .content-scroll::-webkit-scrollbar { display: none; }
 
         .section { padding: 16px; background: #fff; margin-bottom: 8px; }
-        .section-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; color: var(--choco-dark); display: flex; justify-content: space-between; align-items: center; }
+        
+        /* 5. 박스오피스 상영작 글자 크고 두껍게 */
+        .section-title { font-size: 18px; font-weight: 900; margin-bottom: 14px; color: var(--choco-dark); letter-spacing: -0.5px; }
 
         .main-tab-menu { display: flex; background: #fff; border-bottom: 1px solid var(--border-color); padding: 0 16px; }
         .main-tab-btn {
-            flex: 1; background: none; border: none; color: #9ca3af; font-size: 14px; font-weight: bold; padding: 12px 0; cursor: pointer; position: relative; text-align: center;
+            flex: 1; background: none; border: none; color: #94a3b8; font-size: 14px; font-weight: bold; padding: 12px 0; cursor: pointer; position: relative; text-align: center;
         }
         .main-tab-btn.active { color: var(--choco-dark); }
         .main-tab-btn.active::after {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: #10b981;
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--mint-primary);
         }
         .main-tab-content { display: none; }
         .main-tab-content.active { display: block; }
 
-        /* 포스터 순위 숫자 스타일 */
-        .poster-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
-        .poster-scroll::-webkit-scrollbar { display: none; }
-        .poster-card { min-width: 130px; width: 130px; cursor: pointer; position: relative; }
+        /* 5번 & 8번: 포스터 사이즈 확대 및 PC 드래그/휠 가로 스크롤 지원 */
+        .poster-scroll { 
+            display: flex; 
+            gap: 14px; 
+            overflow-x: auto; 
+            padding-bottom: 10px; 
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            cursor: grab;
+        }
+        .poster-scroll:active { cursor: grabbing; }
+        .poster-scroll::-webkit-scrollbar { height: 6px; }
+        .poster-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        /* 포스터가 화면의 절반을 차지하도록 크기 확대 (너비 170px, 높이 240px) */
+        .poster-card { min-width: 170px; width: 170px; cursor: pointer; position: relative; flex-shrink: 0; }
         .poster-img {
-            width: 130px; height: 180px; background-color: #e5e7eb; border-radius: 8px; overflow: hidden; position: relative; margin-bottom: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            width: 170px; height: 240px; background-color: #e2e8f0; border-radius: 10px; overflow: hidden; position: relative; margin-bottom: 8px; box-shadow: 0 6px 12px rgba(0,0,0,0.08);
         }
         .poster-img img { width: 100%; height: 100%; object-fit: cover; }
+        
         .rank-badge {
-            position: absolute; top: 6px; left: 6px; background: rgba(16, 185, 129, 0.9); color: #fff; font-size: 12px; font-weight: 900; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: absolute; top: 8px; left: 8px; background: rgba(29, 189, 176, 0.95); color: #fff; font-size: 13px; font-weight: 900; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
-        .poster-title { font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--choco-dark); }
-        .poster-info { font-size: 11px; color: #6b7280; margin-top: 2px; display: flex; justify-content: space-between; }
+        .poster-title { font-size: 14px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--choco-dark); }
+        .poster-info { font-size: 12px; color: #64748b; margin-top: 3px; display: flex; justify-content: space-between; }
 
         .event-grid { display: flex; flex-direction: column; gap: 10px; }
         .event-card {
@@ -110,21 +125,21 @@
         .event-thumb img { width: 100%; height: 100%; object-fit: cover; }
         .event-desc { padding: 10px 12px; flex: 1; }
         .event-desc h4 { font-size: 13px; font-weight: bold; margin-bottom: 4px; color: var(--choco-dark); }
-        .event-desc p { font-size: 11px; color: #6b7280; }
+        .event-desc p { font-size: 11px; color: #64748b; }
 
         .footer-about {
-            background: #1e1b18; color: #d1d5db; padding: 24px 16px; font-size: 11px; line-height: 1.6;
+            background: #1e1b18; color: #cbd5e1; padding: 24px 16px; font-size: 11px; line-height: 1.6;
         }
         .footer-about h3 { color: #fff; font-size: 13px; margin-bottom: 8px; font-weight: bold; }
-        .footer-about p { margin-bottom: 4px; color: #9ca3af; }
+        .footer-about p { margin-bottom: 4px; color: #94a3b8; }
 
         .bottom-nav {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background-color: #fff; border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; z-index: 10;
         }
         .nav-item {
-            display: flex; flex-direction: column; align-items: center; color: #9ca3af; font-size: 11px; cursor: pointer; gap: 4px; background: none; border: none; font-weight: bold;
+            display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 11px; cursor: pointer; gap: 4px; background: none; border: none; font-weight: bold;
         }
-        .nav-item.active { color: #10b981; }
+        .nav-item.active { color: var(--mint-primary); }
         .nav-item span { font-size: 18px; }
 
         .modal {
@@ -143,51 +158,50 @@
         }
         .popup-box { background: #fff; width: 100%; max-width: 340px; border-radius: 12px; padding: 20px; text-align: center; }
         .popup-box h3 { font-size: 15px; margin-bottom: 10px; color: var(--choco-dark); }
-        .popup-box p { font-size: 12px; color: #4b5563; line-height: 1.5; text-align: left; background: var(--bg-gray); padding: 12px; border-radius: 6px; margin-bottom: 16px; }
-        .popup-btn { background: #10b981; color: #fff; border: none; width: 100%; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
+        .popup-box p { font-size: 12px; color: #475569; line-height: 1.5; text-align: left; background: var(--bg-gray); padding: 12px; border-radius: 6px; margin-bottom: 16px; }
+        .popup-btn { background: var(--mint-primary); color: #fff; border: none; width: 100%; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
 
         .primary-btn {
-            width: 100%; background-color: #10b981; color: #fff; border: none; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; text-align: center; margin-top: 12px;
+            width: 100%; background-color: var(--mint-primary); color: #fff; border: none; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; text-align: center; margin-top: 12px;
         }
-        .primary-btn:disabled { background-color: #d1d5db; cursor: not-allowed; }
+        .primary-btn:disabled { background-color: #cbd5e1; cursor: not-allowed; }
 
-        /* 슬림화된 오더 버튼 및 작은 버튼 스타일 */
         .slim-btn {
-            background-color: #10b981; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;
+            background-color: var(--mint-primary); color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;
         }
 
         .date-tabs { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; }
         .date-tab { background: #fff; border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; flex-shrink: 0; text-align: center; }
-        .date-tab.active { background: #10b981; color: #fff; border-color: #10b981; }
+        .date-tab.active { background: var(--mint-primary); color: #fff; border-color: var(--mint-primary); }
 
         .hall-group { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
-        .hall-title { font-size: 13px; font-weight: bold; margin-bottom: 8px; color: var(--choco-dark); border-bottom: 1px solid #f3f4f6; padding-bottom: 4px; }
+        .hall-title { font-size: 13px; font-weight: bold; margin-bottom: 8px; color: var(--choco-dark); border-bottom: 1px solid #f1f5f9; padding-bottom: 4px; }
         .time-slots { display: flex; gap: 6px; flex-wrap: wrap; }
         .time-chip { background: var(--bg-gray); border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; }
-        .time-chip.selected { background: var(--mint-light); border-color: #10b981; color: #065f46; }
+        .time-chip.selected { background: var(--mint-light); border-color: var(--mint-primary); color: #047857; }
 
         .person-counter { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 10px 14px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--border-color); font-size: 13px; }
         .counter-btns { display: flex; gap: 10px; align-items: center; }
         .counter-btns button { width: 26px; height: 26px; border: 1px solid var(--border-color); background: #fff; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-        .screen-bar { width: 100%; background: #9ca3af; text-align: center; padding: 6px; font-size: 11px; color: #fff; border-radius: 4px; margin-bottom: 16px; font-weight: bold; }
+        .screen-bar { width: 100%; background: #94a3b8; text-align: center; padding: 6px; font-size: 11px; color: #fff; border-radius: 4px; margin-bottom: 16px; font-weight: bold; }
         .seat-grid-container { display: flex; flex-direction: column; gap: 6px; align-items: center; margin-bottom: 20px; overflow-x: auto; }
         .seat-row { display: flex; gap: 6px; }
-        .seat { width: 28px; height: 28px; background: #e5e7eb; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; font-weight: bold; }
-        .seat.selected { background-color: #10b981; color: #fff; }
-        .seat.reserved { background-color: #d1d5db; color: #9ca3af; cursor: not-allowed; }
+        .seat { width: 28px; height: 28px; background: #e2e8f0; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; font-weight: bold; }
+        .seat.selected { background-color: var(--mint-primary); color: #fff; }
+        .seat.reserved { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
 
         .discount-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px; }
         .discount-item { background: #fff; border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
         
         .pay-method-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px; }
         .pay-btn { background: #fff; border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; text-align: center; font-size: 12px; font-weight: bold; cursor: pointer; }
-        .pay-btn.selected { border-color: #10b981; background: var(--mint-light); color: #065f46; }
+        .pay-btn.selected { border-color: var(--mint-primary); background: var(--mint-light); color: #047857; }
 
-        .store-section-title { font-size: 14px; font-weight: bold; margin: 16px 0 8px 0; color: var(--choco-dark); border-left: 3px solid #10b981; padding-left: 6px; }
+        .store-section-title { font-size: 14px; font-weight: bold; margin: 16px 0 8px 0; color: var(--choco-dark); border-left: 3px solid var(--mint-primary); padding-left: 6px; }
         .store-item-card { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
         .store-item-top { display: flex; justify-content: space-between; font-weight: bold; font-size: 13px; margin-bottom: 6px; align-items: center; }
-        .option-group { font-size: 11px; color: #4b5563; margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
+        .option-group { font-size: 11px; color: #475569; margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
         .option-group select { padding: 4px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 11px; }
 
         .history-card { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; }
@@ -199,7 +213,7 @@
 
     <!-- 상단 바 -->
     <header class="header">
-        <div class="logo" onclick="switchTab('home')">MINT <span>CINEMA</span></div>
+        <div class="logo" onclick="switchTab('home')">MINT <span>CINEMA+</span></div>
         <div class="header-icons">
             <span onclick="alert('검색')">🔍</span>
             <span onclick="alert('알림')">🔔</span>
@@ -218,64 +232,65 @@
                 <button class="main-tab-btn" onclick="switchMainTab(this, 'only')">ONLY 독점작</button>
             </div>
 
-            <!-- 현재상영작 1~10위 포스터 (순위 번호 직관적 표기) -->
+            <!-- 현재상영작 1~10위 포스터 (확대된 크기, PC 드래그 지원) -->
             <div id="subtab-now" class="section">
-                <div class="section-title">박스오피스 상영작 (1위~10위)</div>
-                <div class="poster-scroll" id="now-movies-scroll">
-                    <!-- 자바스크립트 동적 생성 -->
-                </div>
+                <div class="section-title">박스오피스 상영작</div>
+                <div class="poster-scroll" id="now-movies-scroll"></div>
             </div>
 
-            <!-- 상영예정작 1~8위 포스터 -->
+            <!-- 상영예정작 포스터 -->
             <div id="subtab-soon" class="section" style="display:none;">
                 <div class="section-title">개봉 예정 기대작</div>
-                <div class="poster-scroll" id="soon-movies-scroll">
-                    <!-- 자바스크립트 동적 생성 -->
-                </div>
+                <div class="poster-scroll" id="soon-movies-scroll"></div>
             </div>
 
-            <!-- ONLY 독점작 -->
+            <!-- ONLY 독점작 (오페라의 유령, 오페라 공연 포함) -->
             <div id="subtab-only" class="section" style="display:none;">
-                <div class="section-title">민트 시네마 ONLY 독점</div>
+                <div class="section-title">민트 시네마플러스 독점 공연</div>
                 <div class="poster-scroll">
-                    <div class="poster-card">
-                        <div class="poster-img"><img src="https://picsum.photos/130/180?random=50" alt="포스터"><div class="rank-badge">EX</div></div>
-                        <div class="poster-title">민트 단독 콘서트 라이브</div>
-                        <div class="poster-info"><span>독점개봉</span><span>⭐ 9.9</span></div>
+                    <div class="poster-card" onclick="alert('오페라의 유령 뮤지컬 실황 상세')">
+                        <div class="poster-img"><img src="https://picsum.photos/170/240?random=50" alt="오페라의유령"><div class="rank-badge">EX</div></div>
+                        <div class="poster-title">오페라의 유령 뮤지컬 실황</div>
+                        <div class="poster-info"><span>단독독점</span><span>⭐ 9.9</span></div>
+                    </div>
+                    <div class="poster-card" onclick="alert('클래식 명작 오페라 공연 상세')">
+                        <div class="poster-img"><img src="https://picsum.photos/170/240?random=51" alt="오페라"><div class="rank-badge">EX</div></div>
+                        <div class="poster-title">비엔나 국립오페라 갈라 콘서트</div>
+                        <div class="poster-info"><span>단독공연</span><span>⭐ 9.8</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- 이벤트 영역 (4개) -->
+            <!-- 이벤트 영역 (요청하신 2번 내용 반영) -->
             <div class="section">
                 <div class="section-title">진행 중인 이벤트</div>
                 <div class="event-grid">
-                    <div class="event-card" onclick="alert('이벤트 1 상세')">
+                    <div class="event-card" onclick="alert('무대인사 이벤트 상세')">
                         <div class="event-thumb"><img src="https://picsum.photos/90/70?random=10" alt="이벤트"></div>
                         <div class="event-desc">
-                            <h4>민트초코 콤보 출시 기념 할인</h4>
-                            <p>기간: 상시 진행</p>
+                            <h4>개봉주 무대인사: 명랑 & 치이카와</h4>
+                            <p>주말 무대인사 예매 오픈 안내</p>
                         </div>
                     </div>
-                    <div class="event-card" onclick="alert('이벤트 2 상세')">
+                    <div class="event-card" onclick="alert('포스터 증정 이벤트 상세')">
                         <div class="event-thumb"><img src="https://picsum.photos/90/70?random=11" alt="이벤트"></div>
                         <div class="event-desc">
-                            <h4>대표번호 제휴 최대 50% 할인</h4>
-                            <p>대상: 민트 회원 전용</p>
+                            <h4>미비포유 오리지널 포스터 증정</h4>
+                            <p>관람 당일 티켓 인증 선착순 지급</p>
                         </div>
                     </div>
-                    <div class="event-card" onclick="alert('이벤트 3 상세')">
+                    <div class="event-card" onclick="alert('추가 포인트 증정 상세')">
                         <div class="event-thumb"><img src="https://picsum.photos/90/70?random=12" alt="이벤트"></div>
                         <div class="event-desc">
-                            <h4>VIP 회원 스페셜 굿즈 증정</h4>
-                            <p>선착순 한정 지급</p>
+                            <h4>영화 예매 추가 포인트 증정 이벤트</h4>
+                            <p>멤버십 회원 대상 상시 적립</p>
                         </div>
                     </div>
-                    <div class="event-card" onclick="alert('이벤트 4 상세')">
+                    <div class="event-card" onclick="alert('모바일 오더 쿠폰 상세')">
                         <div class="event-thumb"><img src="https://picsum.photos/90/70?random=13" alt="이벤트"></div>
                         <div class="event-desc">
-                            <h4>모바일 오더 첫 주문 사이즈업</h4>
-                            <p>음료 및 팝콘 대상 적용</p>
+                            <h4>모바일 오더 첫 주문 쿠폰 증정</h4>
+                            <p>매점 2천원 즉시 할인 쿠폰팩</p>
                         </div>
                     </div>
                 </div>
@@ -283,12 +298,12 @@
 
             <!-- 회사소개 영역 (고정 정보 반영) -->
             <div class="footer-about">
-                <h3>(주) 민트 시네마</h3>
+                <h3>(주) 민트 시네마플러스</h3>
                 <p>대표자명: 송초코 | 사업자등록번호: 20191031</p>
                 <p>주소: 대한민국 초코시 뼈뼈로 1031</p>
                 <p>고객센터 대표번호: 1031-0031-8051 | 이메일: choco1031@b1eb1e.com</p>
                 <br>
-                <p style="color:#6b7280; font-size:10px;">Copyright © MINT CINEMA. All Rights Reserved.</p>
+                <p style="color:#64748b; font-size:10px;">Copyright © MINT CINEMA PLUS. All Rights Reserved.</p>
             </div>
         </div>
 
@@ -314,7 +329,8 @@
                 <div class="store-section-title">🥤 음료 메뉴 (사이즈/종류)</div>
                 <div id="drink-list"></div>
 
-                <button class="primary-btn" onclick="proceedStorePayment()">주문 및 결제하기</button>
+                <!-- 3번 수정: 모바일 오더도 영화 결제처럼 결제화면 거치도록 수정됨 -->
+                <button class="primary-btn" onclick="openStorePaymentModal()">주문 및 결제하기</button>
             </div>
         </div>
 
@@ -356,6 +372,15 @@
         <div class="modal-body" id="booking-modal-body"></div>
     </div>
 
+    <!-- 모바일 오더 결제 모달 (영화 결제와 동일한 구조) -->
+    <div id="store-payment-modal" class="modal">
+        <div class="modal-header">
+            <div class="modal-title">매점 모바일 오더 결제</div>
+            <button class="close-btn" onclick="closeStorePaymentModal()">✕</button>
+        </div>
+        <div class="modal-body" id="store-payment-modal-body"></div>
+    </div>
+
     <!-- 통합 내역 확인 모달 -->
     <div id="history-modal" class="modal">
         <div class="modal-header">
@@ -368,41 +393,67 @@
 </div>
 
 <script>
-    // 현재 상영작 1위~10위 데이터
     const nowMovies = [
-        { id: 1, title: "명량", rate: "38%", img: "https://picsum.photos/130/180?random=1" },
-        { id: 2, title: "포레스트 검프", rate: "24%", img: "https://picsum.photos/130/180?random=2" },
-        { id: 3, title: "미비포유", rate: "15%", img: "https://picsum.photos/130/180?random=3" },
-        { id: 4, title: "호프", rate: "10%", img: "https://picsum.photos/130/180?random=4" },
-        { id: 5, title: "극장판치이카와: 인어 섬의 비밀", rate: "7%", img: "https://picsum.photos/130/180?random=5" },
-        { id: 6, title: "듄", rate: "3%", img: "https://picsum.photos/130/180?random=6" },
-        { id: 7, title: "호루몽", rate: "1%", img: "https://picsum.photos/130/180?random=7" },
-        { id: 8, title: "오디세이", rate: "1%", img: "https://picsum.photos/130/180?random=8" },
-        { id: 9, title: "인터스텔라", rate: "0.5%", img: "https://picsum.photos/130/180?random=9" },
-        { id: 10, title: "그대들은 어떻게 살것인가", rate: "0.5%", img: "https://picsum.photos/130/180?random=10" }
+        { id: 1, title: "명량", rate: "38%", img: "https://picsum.photos/170/240?random=1" },
+        { id: 2, title: "포레스트 검프", rate: "24%", img: "https://picsum.photos/170/240?random=2" },
+        { id: 3, title: "미비포유", rate: "15%", img: "https://picsum.photos/170/240?random=3" },
+        { id: 4, title: "호프", rate: "10%", img: "https://picsum.photos/170/240?random=4" },
+        { id: 5, title: "극장판치이카와: 인어 섬의 비밀", rate: "7%", img: "https://picsum.photos/170/240?random=5" },
+        { id: 6, title: "듄", rate: "3%", img: "https://picsum.photos/170/240?random=6" },
+        { id: 7, title: "호루몽", rate: "1%", img: "https://picsum.photos/170/240?random=7" },
+        { id: 8, title: "오디세이", rate: "1%", img: "https://picsum.photos/170/240?random=8" },
+        { id: 9, title: "인터스텔라", rate: "0.5%", img: "https://picsum.photos/170/240?random=9" },
+        { id: 10, title: "그대들은 어떻게 살것인가", rate: "0.5%", img: "https://picsum.photos/170/240?random=10" }
     ];
 
-    // 상영예정작 1~8위 데이터
     const soonMovies = [
-        { title: "어벤져스: 둠스데이", date: "D-5", img: "https://picsum.photos/130/180?random=21" },
-        { title: "듄: 파트3", date: "D-12", img: "https://picsum.photos/130/180?random=22" },
-        { title: "겨울왕국2", date: "D-18", img: "https://picsum.photos/130/180?random=23" },
-        { title: "라라랜드", date: "D-24", img: "https://picsum.photos/130/180?random=24" },
-        { title: "포트V 페라리", date: "D-30", img: "https://picsum.photos/130/180?random=25" },
-        { title: "해리포터 비밀의방", date: "D-35", img: "https://picsum.photos/130/180?random=26" },
-        { title: "암살자들", date: "D-40", img: "https://picsum.photos/130/180?random=27" },
-        { title: "스파이더맨: 브랜드 뉴 데이", date: "D-45", img: "https://picsum.photos/130/180?random=28" }
+        { title: "어벤져스: 둠스데이", date: "D-5", img: "https://picsum.photos/170/240?random=21" },
+        { title: "듄: 파트3", date: "D-12", img: "https://picsum.photos/170/240?random=22" },
+        { title: "겨울왕국2", date: "D-18", img: "https://picsum.photos/170/240?random=23" },
+        { title: "라라랜드", date: "D-24", img: "https://picsum.photos/170/240?random=24" },
+        { title: "포트V 페라리", date: "D-30", img: "https://picsum.photos/170/240?random=25" },
+        { title: "해리포터 비밀의방", date: "D-35", img: "https://picsum.photos/170/240?random=26" },
+        { title: "암살자들", date: "D-40", img: "https://picsum.photos/170/240?random=27" },
+        { title: "스파이더맨: 브랜드 뉴 데이", date: "D-45", img: "https://picsum.photos/170/240?random=28" }
     ];
 
     let myBookings = [];
     let myStoreOrders = [];
+    let tempCart = [];
     let selectedMovieForBooking = null;
 
     window.onload = function() {
         renderHomePosters();
         renderBookingMovieList();
         renderStoreMenus();
+        setupDraggableScroll();
     };
+
+    // 8번 수정: PC 화면에서도 마우스로 드래그하여 가로 스크롤이 매끄럽게 되도록 설정
+    function setupDraggableScroll() {
+        const sliders = document.querySelectorAll('.poster-scroll');
+        sliders.forEach(slider => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.classList.add('active');
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+            slider.addEventListener('mouseleave', () => { isDown = false; });
+            slider.addEventListener('mouseup', () => { isDown = false; });
+            slider.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2;
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        });
+    }
 
     function renderHomePosters() {
         document.getElementById('now-movies-scroll').innerHTML = nowMovies.map((m, idx) => `
@@ -469,15 +520,14 @@
             <div style="background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:12px; margin-bottom:10px; display:flex; gap:12px; align-items:center;">
                 <img src="${m.img}" style="width:50px; height:70px; border-radius:4px; object-fit:cover;">
                 <div style="flex:1;">
-                    <div style="font-weight:bold; font-size:14px; margin-bottom:4px;">${idxText(m.id)}. ${m.title}</div>
-                    <div style="font-size:11px; color:#6b7280; margin-bottom:8px;">예매율 ${m.rate}</div>
+                    <div style="font-weight:bold; font-size:14px; margin-bottom:4px;">${m.id}. ${m.title}</div>
+                    <div style="font-size:11px; color:#64748b; margin-bottom:8px;">예매율 ${m.rate}</div>
                     <button class="slim-btn" onclick="selectMovieDirect(${m.id})">바로예매</button>
                 </div>
             </div>
         `).join('');
         document.getElementById('booking-movie-list').innerHTML = html;
     }
-    function idxText(id) { return id; }
 
     function selectMovieDirect(movieId) {
         selectedMovieForBooking = nowMovies.find(m => m.id === movieId);
@@ -491,7 +541,6 @@
         renderStepTimeSelection();
     }
 
-    // 깔끔한 날짜 포맷 (지저분한 함수 코드 제거)
     function renderStepTimeSelection() {
         const today = new Date();
         let datesHtml = '';
@@ -627,7 +676,6 @@
         document.getElementById('cnt-special').textContent = bookingStepData.special;
     }
 
-    // 좌석 선택 (최소 G열 이상 반영, A~G)
     function renderStepSeatSelection() {
         const totalPersons = bookingStepData.adult + bookingStepData.teen + bookingStepData.senior + bookingStepData.special;
         bookingStepData.seats = [];
@@ -645,8 +693,8 @@
         });
 
         document.getElementById('booking-modal-body').innerHTML = `
-            <div style="font-weight:bold; font-size:13px; margin-bottom:4px;">좌석 선택 (총 <span style="color:#10b981;" id="selected-count">0</span> / ${totalPersons}명 선택 필요)</div>
-            <div style="font-size:11px; color:#6b7280; margin-bottom:12px;">최소 G열까지 배치된 스크린 앞 좌석</div>
+            <div style="font-weight:bold; font-size:13px; margin-bottom:4px;">좌석 선택 (총 <span style="color:var(--mint-primary);" id="selected-count">0</span> / ${totalPersons}명 선택 필요)</div>
+            <div style="font-size:11px; color:#64748b; margin-bottom:12px;">최소 G열까지 배치된 스크린 앞 좌석</div>
             
             <div class="screen-bar">SCREEN</div>
             <div class="seat-grid-container">${seatsHtml}</div>
@@ -679,7 +727,7 @@
             <div style="font-size:13px; background:#fff; border:1px solid var(--border-color); padding:12px; border-radius:8px; margin-bottom:12px;">
                 <b>[${selectedMovieForBooking.title}]</b><br>
                 일시: ${bookingStepData.date} ${bookingStepData.time}<br>
-                상영관: ${bookingStepData.hall} | 좌석: <span style="color:#10b981; font-weight:bold;">${bookingStepData.seats.join(', ')}</span><br>
+                상영관: ${bookingStepData.hall} | 좌석: <span style="color:var(--mint-primary); font-weight:bold;">${bookingStepData.seats.join(', ')}</span><br>
                 인원: 총 ${totalPersons}명 (금액: <b>${totalPrice.toLocaleString()}원</b>)
             </div>
 
@@ -726,7 +774,7 @@
         alert('영화 예매 및 결제가 완료되었습니다!');
     }
 
-    // 모바일 오더 (슬림화된 버튼 적용)
+    // 모바일 오더 메뉴 렌더링
     function renderStoreMenus() {
         const combos = [
             { id: 'c1', name: '더블콤보', desc: '팝콘 소 2 + 음료 2', price: 12000 },
@@ -738,9 +786,9 @@
             <div class="store-item-card">
                 <div class="store-item-top">
                     <span>${c.name} (${c.price.toLocaleString()}원)</span>
-                    <button class="slim-btn" onclick="orderCombo('${c.name}', ${c.price}, '${c.id}')">담기</button>
+                    <button class="slim-btn" onclick="addStoreCart('${c.name}', ${c.price}, '${c.id}')">담기</button>
                 </div>
-                <div style="font-size:11px; color:#6b7280; margin-bottom:6px;">${c.desc}</div>
+                <div style="font-size:11px; color:#64748b; margin-bottom:6px;">${c.desc}</div>
                 <div class="option-group">
                     <label>팝콘 맛: 
                         <select id="combo-pop-${c.id}">
@@ -774,9 +822,9 @@
             <div class="store-item-card" style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
                     <div style="font-weight:bold; font-size:13px;">${p.name}</div>
-                    <div style="color:#10b981; font-size:12px; font-weight:bold;">${p.price.toLocaleString()}원</div>
+                    <div style="color:var(--mint-primary); font-size:12px; font-weight:bold;">${p.price.toLocaleString()}원</div>
                 </div>
-                <button class="slim-btn" onclick="addStoreItem('${p.name}', ${p.price})">담기</button>
+                <button class="slim-btn" onclick="addStoreCart('${p.name}', ${p.price})">담기</button>
             </div>
         `).join('');
 
@@ -791,33 +839,84 @@
             <div class="store-item-card" style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
                     <div style="font-weight:bold; font-size:13px;">${d.name}</div>
-                    <div style="color:#10b981; font-size:12px; font-weight:bold;">${d.price.toLocaleString()}원</div>
+                    <div style="color:var(--mint-primary); font-size:12px; font-weight:bold;">${d.price.toLocaleString()}원</div>
                 </div>
-                <button class="slim-btn" onclick="addStoreItem('${d.name}', ${d.price})">담기</button>
+                <button class="slim-btn" onclick="addStoreCart('${d.name}', ${d.price})">담기</button>
             </div>
         `).join('');
     }
 
-    function orderCombo(name, basePrice, id) {
-        let popOpt = document.getElementById(`combo-pop-${id}`).value;
-        let drkOpt = document.getElementById(`combo-drink-${id}`).value;
-        let finalName = `${name} [${popOpt} / ${drkOpt}]`;
-        
-        myStoreOrders.push({ id: Date.now(), name: finalName, price: basePrice });
+    function addStoreCart(name, price, id) {
+        let finalName = name;
+        if(id) {
+            let popOpt = document.getElementById(`combo-pop-${id}`).value;
+            let drkOpt = document.getElementById(`combo-drink-${id}`).value;
+            finalName = `${name} [${popOpt} / ${drkOpt}]`;
+        }
+        tempCart.push({ name: finalName, price: price });
         alert(`[${name}] 장바구니에 담겼습니다!`);
     }
 
-    function addStoreItem(name, price) {
-        myStoreOrders.push({ id: Date.now(), name: name, price: price });
-        alert(`[${name}] 장바구니에 담겼습니다!`);
-    }
+    // 3번 수정: 모바일 오더 결제창 열기 (영화 결제 방식과 동일)
+    let storePaymentData = { payment: '신용/체크카드' };
 
-    function proceedStorePayment() {
-        if(myStoreOrders.length === 0) {
-            alert('주문할 매점 상품을 담아주세요.');
+    function openStorePaymentModal() {
+        if(tempCart.length === 0) {
+            alert('장바구니에 담긴 매점 상품이 없습니다.');
             return;
         }
-        alert('모바일 오더 결제가 완료되었습니다!');
+
+        let totalAmount = tempCart.reduce((sum, item) => sum + item.price, 0);
+        let cartHtml = tempCart.map(item => `
+            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px;">
+                <span>${item.name}</span>
+                <span style="font-weight:bold;">${item.price.toLocaleString()}원</span>
+            </div>
+        `).join('');
+
+        document.getElementById('store-payment-modal-body').innerHTML = `
+            <div style="font-size:13px; background:#fff; border:1px solid var(--border-color); padding:12px; border-radius:8px; margin-bottom:12px;">
+                <b>[모바일 오더 주문 내역]</b><br><br>
+                ${cartHtml}
+                <hr style="border:0; border-top:1px solid #eee; margin:8px 0;">
+                <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:14px;">
+                    <span>총 결제금액</span>
+                    <span style="color:var(--mint-primary);">${totalAmount.toLocaleString()}원</span>
+                </div>
+            </div>
+
+            <div style="font-weight:bold; font-size:13px; margin-bottom:8px;">결제 수단 선택</div>
+            <div class="pay-method-grid">
+                <div class="pay-btn selected" onclick="selectStorePayMethod(this, '간편결제')">간편결제</div>
+                <div class="pay-btn" onclick="selectStorePayMethod(this, '신용/체크카드')">신용/체크카드</div>
+                <div class="pay-btn" onclick="selectStorePayMethod(this, '기타결제')">기타결제</div>
+                <div class="pay-btn" onclick="selectStorePayMethod(this, '무통장입금')">무통장입금</div>
+            </div>
+
+            <button class="primary-btn" onclick="completeStorePayment(${totalAmount})">${totalAmount.toLocaleString()}원 결제 완료하기</button>
+        `;
+
+        document.getElementById('store-payment-modal').classList.add('open');
+    }
+
+    function selectStorePayMethod(el, method) {
+        document.querySelectorAll('#store-payment-modal .pay-btn').forEach(b => b.classList.remove('selected'));
+        el.classList.add('selected');
+        storePaymentData.payment = method;
+    }
+
+    function completeStorePayment(totalAmount) {
+        tempCart.forEach(item => {
+            myStoreOrders.push({
+                id: Date.now(),
+                name: item.name,
+                price: item.price,
+                payment: storePaymentData.payment
+            });
+        });
+        tempCart = [];
+        document.getElementById('store-payment-modal').classList.remove('open');
+        alert('모바일 오더 결제가 완료되었습니다! 내역함에서 확인하세요.');
     }
 
     function openHistoryModal() {
@@ -825,13 +924,13 @@
         
         let html = '<div style="font-weight:bold; font-size:14px; margin-bottom:8px; color:var(--choco-dark);">🎟️ 영화 예매 내역</div>';
         if(myBookings.length === 0) {
-            html += '<p style="color:#9ca3af; font-size:12px; margin-bottom:16px;">예매 내역이 없습니다.</p>';
+            html += '<p style="color:#94a3b8; font-size:12px; margin-bottom:16px;">예매 내역이 없습니다.</p>';
         } else {
             html += myBookings.map(b => `
-                <div class="history-card" style="border-left: 4px solid #10b981;">
+                <div class="history-card" style="border-left: 4px solid var(--mint-primary);">
                     <div style="font-weight:bold; font-size:13px; margin-bottom:4px;">${b.title}</div>
                     <div>상영관: ${b.hall} | 시간: ${b.time}</div>
-                    <div>좌석: <b style="color:#10b981;">${b.seats}</b></div>
+                    <div>좌석: <b style="color:var(--mint-primary);">${b.seats}</b></div>
                     <div>결제수단: ${b.payment} (${b.price.toLocaleString()}원)</div>
                 </div>
             `).join('');
@@ -839,15 +938,15 @@
 
         html += '<div style="font-weight:bold; font-size:14px; margin:16px 0 8px 0; color:var(--choco-dark);">🍿 매점 주문 내역</div>';
         if(myStoreOrders.length === 0) {
-            html += '<p style="color:#9ca3af; font-size:12px;">매점 주문 내역이 없습니다.</p>';
+            html += '<p style="color:#94a3b8; font-size:12px;">매점 주문 내역이 없습니다.</p>';
         } else {
             html += myStoreOrders.map(o => `
                 <div class="history-card" style="border-left: 4px solid #f59e0b; display:flex; justify-content:space-between; align-items:center;">
                     <div>
                         <div style="font-weight:bold;">${o.name}</div>
-                        <div style="font-size:11px; color:#6b7280;">상태: 준비중</div>
+                        <div style="font-size:11px; color:#64748b;">결제: ${o.payment} | 상태: 준비중</div>
                     </div>
-                    <div style="color:#10b981; font-weight:bold;">${o.price.toLocaleString()}원</div>
+                    <div style="color:var(--mint-primary); font-weight:bold;">${o.price.toLocaleString()}원</div>
                 </div>
             `).join('');
         }
@@ -858,6 +957,7 @@
 
     function closeHistoryModal() { document.getElementById('history-modal').classList.remove('open'); }
     function closeBookingModal() { document.getElementById('booking-modal').classList.remove('open'); }
+    function closeStorePaymentModal() { document.getElementById('store-payment-modal').classList.remove('open'); }
 </script>
 
 </body>
