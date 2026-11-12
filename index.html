@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MINT CINEMA PLUS</title>
     
-    <!-- SNS 공유 시 썸네일로 지정한 로고가 뜨도록 설정하는 태그 -->
+    <!-- SNS 공유 시 썸네일 설정 -->
     <meta property="og:title" content="MINT CINEMA PLUS">
     <meta property="og:description" content="프리미엄 영화 예매 및 모바일 오더 서비스">
     <meta property="og:image" content="./images/logo.png">
@@ -68,7 +68,6 @@
             border-bottom: 1px solid var(--border-color);
             z-index: 10;
         }
-        /* 직접 만들어 오신 로고 이미지 적용 스타일 */
         .logo-img { height: 32px; cursor: pointer; object-fit: contain; }
         .header-icons { display: flex; gap: 14px; font-size: 18px; cursor: pointer; }
 
@@ -101,9 +100,10 @@
         .poster-scroll::-webkit-scrollbar { height: 6px; }
         .poster-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 
-        .poster-card { min-width: 200px; width: 200px; cursor: pointer; position: relative; flex-shrink: 0; }
+        /* 포스터 크기를 화면 절반 수준으로 대폭 확대 (너비 215px, 높이 310px) */
+        .poster-card { min-width: 215px; width: 215px; cursor: pointer; position: relative; flex-shrink: 0; }
         .poster-img {
-            width: 200px; height: 285px; background-color: #e2e8f0; border-radius: 12px; overflow: hidden; position: relative; margin-bottom: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+            width: 215px; height: 310px; background-color: #e2e8f0; border-radius: 12px; overflow: hidden; position: relative; margin-bottom: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.12);
         }
         .poster-img img { width: 100%; height: 100%; object-fit: cover; }
         
@@ -113,11 +113,12 @@
         .poster-title { font-size: 15px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--choco-dark); }
         .poster-info { font-size: 13px; color: #64748b; margin-top: 3px; display: flex; justify-content: space-between; }
 
+        /* 이벤트 카드: 1:1 정방향 카드뉴스 스타일 */
         .event-grid { display: flex; flex-direction: column; gap: 12px; }
         .event-card {
             background: #fff; border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; display: flex; align-items: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
-        .event-thumb { width: 95px; height: 95px; background: #ddd; flex-shrink: 0; }
+        .event-thumb { width: 105px; height: 105px; background: #ddd; flex-shrink: 0; } /* 1:1 정사각형 정방향 유지 */
         .event-thumb img { width: 100%; height: 100%; object-fit: cover; }
         .event-desc { padding: 12px 14px; flex: 1; }
         .event-desc h4 { font-size: 14px; font-weight: bold; margin-bottom: 6px; color: var(--choco-dark); }
@@ -204,7 +205,7 @@
 
 <div class="app-container">
 
-    <!-- 상단 바 (사용자 로고 이미지 연동) -->
+    <!-- 상단 바 -->
     <header class="header">
         <img src="./images/logo.png" alt="MINT CINEMA PLUS" class="logo-img" onclick="switchTab('home')">
         <div class="header-icons">
@@ -225,13 +226,13 @@
                 <button class="main-tab-btn" onclick="switchMainTab(this, 'only')">ONLY 독점작</button>
             </div>
 
-            <!-- 현재상영작 -->
+            <!-- 현재상영작 (크기 확대) -->
             <div id="subtab-now" class="section">
                 <div class="section-title">박스오피스 상영작</div>
                 <div class="poster-scroll" id="now-movies-scroll"></div>
             </div>
 
-            <!-- 상영예정작 (듄 파트3 soon2.jpg 연동 확인) -->
+            <!-- 상영예정작 (크기 확대) -->
             <div id="subtab-soon" class="section" style="display:none;">
                 <div class="section-title">개봉 예정 기대작</div>
                 <div class="poster-scroll" id="soon-movies-scroll"></div>
@@ -254,22 +255,22 @@
                 </div>
             </div>
 
-            <!-- 이벤트 영역 -->
+            <!-- 이벤트 영역 (1:1 정사각형 카드뉴스 스타일 & 수정된 내용 반영) -->
             <div class="section">
                 <div class="section-title">진행 중인 이벤트</div>
                 <div class="event-grid">
                     <div class="event-card" onclick="alert('무대인사 이벤트 상세')">
                         <div class="event-thumb"><img src="./images/event1.jpg" alt="이벤트1"></div>
                         <div class="event-desc">
-                            <h4>개봉주 무대인사: 명랑 & 치이카와</h4>
+                            <h4>개봉주 무대인사: 치이카와</h4>
                             <p>주말 무대인사 예매 오픈 안내</p>
                         </div>
                     </div>
                     <div class="event-card" onclick="alert('포스터 증정 이벤트 상세')">
                         <div class="event-thumb"><img src="./images/event2.jpg" alt="이벤트2"></div>
                         <div class="event-desc">
-                            <h4>미 비 포 유 오리지널 포스터 증정</h4>
-                            <p>관람 당일 티켓 인증 선착순 지급</p>
+                            <h4>라라랜드 오리지널 포스터 증정</h4>
+                            <p>10주년 재개봉 기념 티켓 인증 선착순 지급</p>
                         </div>
                     </div>
                     <div class="event-card" onclick="alert('추가 포인트 증정 상세')">
