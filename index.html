@@ -7,7 +7,7 @@
     
     <!-- SNS 공유 시 썸네일 설정 -->
     <meta property="og:title" content="MINT CINEMA PLUS">
-    <meta property="og:description" content="MINT CINEMA+- 영화에 플러스를 더하다">
+    <meta property="og:description" content="MINT CINEMA+- 영화일상에 플러스를 더하다">
     <meta property="og:image" content="./images/logo.png">
 
     <style>
@@ -125,7 +125,7 @@
         .event-desc h4 { font-size: 14px; font-weight: bold; margin-bottom: 6px; color: var(--choco-dark); }
         .event-desc p { font-size: 12px; color: #64748b; line-height: 1.4; }
 
-        /* 밑에서 위로 슬라이드 올라오는 이벤트 상세 바텀 시트 팝업 */
+        /* 이벤트 상세 바텀 시트 팝업 */
         .event-modal-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 400; display: none; justify-content: flex-end; flex-direction: column;
             animation: fadeIn 0.3s ease;
@@ -150,11 +150,14 @@
         .event-modal-title { font-size: 16px; font-weight: 900; color: var(--choco-dark); }
         .event-modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: #64748b; padding: 4px; }
 
-        /* 등록한 전체 이미지 원본이 잘리지 않고 완벽하게 보이도록 설정 */
+        /* 사진 잘림 및 여백 방지: 너비 100% 맞춤, 비율 유지 */
         .event-modal-img {
-            width: 100%; height: auto; max-height: 380px; object-fit: contain; background: #000; border-radius: 10px; margin-bottom: 16px; display: block;
+            width: 100%; height: auto; object-fit: cover; border-radius: 10px; margin-bottom: 16px; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
+        
+        /* 팝업 내부 텍스트 타이포그래피 (제목 강조 & 본문 스타일) */
         .event-modal-text { font-size: 13px; color: #334155; line-height: 1.6; background: var(--bg-gray); padding: 14px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .event-modal-text .popup-main-title { font-size: 15px; font-weight: 900; color: var(--choco-dark); margin-bottom: 8px; display: block; }
 
         .footer-about {
             background: #1e1b18; color: #cbd5e1; padding: 24px 16px; font-size: 11px; line-height: 1.6;
@@ -287,12 +290,12 @@
                 </div>
             </div>
 
-            <!-- 이벤트 영역 (클릭 시 하단에서 위로 뜨는 팝업 연동) -->
+            <!-- 이벤트 영역 (요청하신 줄바꿈 및 타이포그래피 반영) -->
             <div class="section">
                 <div class="section-title">진행 중인 이벤트</div>
                 <div class="event-grid">
                     
-                    <div class="event-card" onclick="openEventModal('개봉주 무대인사: 치이카와', './images/event1.jpg', '[주말 무대인사 안내]<br>극장판 치이카와 개봉주 주말 특별 무대인사가 진행됩니다. 예매 오픈 일정과 참석 캐릭터 정보를 확인하시고 서둘러 예매하세요!')">
+                    <div class="event-card" onclick="openEventModal('개봉주 무대인사: 치이카와', './images/event1.jpg', '<span class=\'popup-main-title\'>[주말 무대인사 안내]</span>극장판 치이카와 개봉주 주말 특별 무대인사가 진행됩니다.<br>예매 오픈 일정과 참석 캐릭터 정보를 확인하시고 서둘러 예매하세요!')">
                         <div class="event-thumb"><img src="./images/event1.jpg" alt="이벤트1"></div>
                         <div class="event-desc">
                             <h4>개봉주 무대인사: 치이카와</h4>
@@ -300,7 +303,7 @@
                         </div>
                     </div>
 
-                    <div class="event-card" onclick="openEventModal('라라랜드 오리지널 포스터 증정', './images/event2.jpg', '[10주년 재개봉 기념 이벤트]<br>라라랜드 관람 당일 티켓을 인증하시는 회원분들께 선착순으로 오리지널 특전 포스터를 증정해 드립니다. (1인 1매 한정)')">
+                    <div class="event-card" onclick="openEventModal('라라랜드 오리지널 포스터 증정', './images/event2.jpg', '<span class=\'popup-main-title\'>[10주년 재개봉 기념 이벤트]</span>라라랜드 관람 당일 티켓을 인증하시는 회원분들께 선착순으로<br>오리지널 특전 포스터를 증정해 드립니다. (1인 2매 한정)')">
                         <div class="event-thumb"><img src="./images/event2.jpg" alt="이벤트2"></div>
                         <div class="event-desc">
                             <h4>라라랜드 오리지널 포스터 증정</h4>
@@ -308,7 +311,7 @@
                         </div>
                     </div>
 
-                    <div class="event-card" onclick="openEventModal('이번달 콤보 & 영화 3천원 할인권 증정', './images/event3.jpg', '[시네마플러스 특별 할인 쿠폰팩]<br>이번 달 민트 시네마를 찾아주시는 모든 멤버십 회원분들께 매점 콤보 3,000원 할인권과 일반 영화 3,000원 할인권을 마이페이지 쿠폰함에 즉시 지급해 드립니다!')">
+                    <div class="event-card" onclick="openEventModal('이번달 콤보 & 영화 3천원 할인권 증정', './images/event3.jpg', '<span class=\'popup-main-title\'>[시네마플러스 특별 할인 쿠폰팩]</span>이번 달 민트 시네마를 찾아주시는 모든 멤버십 회원분들께<br>매점 콤보 3,000원 할인권과 일반 영화 3,000원 할인권을<br>마이페이지 쿠폰함에 즉시 지급해 드립니다!')">
                         <div class="event-thumb"><img src="./images/event3.jpg" alt="이벤트3"></div>
                         <div class="event-desc">
                             <h4>이번달 콤보 & 영화 3천원 할인권 증정</h4>
@@ -316,7 +319,7 @@
                         </div>
                     </div>
 
-                    <div class="event-card" onclick="openEventModal('신메뉴 무화과 에이드 출시', './images/event4.jpg', '[가을 한정 신메뉴 출시]<br>톡톡 씹히는 식감과 달콤한 향이 가득한 신메뉴 \'무화과 에이드\'가 출시되었습니다! 모바일 오더로 지금 바로 상큼하게 즐겨보세요.')">
+                    <div class="event-card" onclick="openEventModal('신메뉴 무화과 에이드 출시', './images/event4.jpg', '<span class=\'popup-main-title\'>[가을 한정 신메뉴 출시]</span>달콤한 향이 가득한 신메뉴 \'무화과 에이드\'가 출시되었습니다<br>모바일 오더로 주문 후 지금 바로 즐겨보세요.')">
                         <div class="event-thumb"><img src="./images/event4.jpg" alt="이벤트4"></div>
                         <div class="event-desc">
                             <h4>신메뉴 '무화과 에이드' 상큼 출시!</h4>
@@ -447,7 +450,7 @@
     ];
 
     const soonMovies = [
-        { title: "어벤져스: 둠스데이", date: "D-5", img: "./images/soon1.jpg" },
+        { title: "어벤져스: 둠ส데이", date: "D-5", img: "./images/soon1.jpg" },
         { title: "듄: 파트3", date: "D-12", img: "./images/dune.jpg" },
         { title: "겨울왕국2", date: "D-18", img: "./images/soon3.jpg" },
         { title: "라라랜드", date: "D-24", img: "./images/soon4.jpg" },
@@ -468,7 +471,6 @@
         setupDraggableScroll();
     };
 
-    // 이벤트 하단 슬라이드 팝업 열기/닫기 함수
     function openEventModal(title, imgSrc, textDesc) {
         document.getElementById('modal-event-title').textContent = title;
         document.getElementById('modal-event-img').src = imgSrc;
