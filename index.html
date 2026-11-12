@@ -18,6 +18,8 @@
             --bg-white: #ffffff;
             --bg-gray: #f8fafc;
             --border-color: #e2e8f0;
+            --danger-color: #ef4444;
+            --danger-light: #fee2e2;
         }
 
         * {
@@ -204,6 +206,12 @@
             background-color: var(--mint-primary); color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; flex-shrink: 0;
         }
 
+        /* 예매 취소 버튼 스타일 */
+        .cancel-btn {
+            width: 100%; background-color: #fff; color: var(--danger-color); border: 1px solid var(--danger-color); padding: 10px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; text-align: center; margin-top: 10px; transition: background 0.2s;
+        }
+        .cancel-btn:hover { background-color: var(--danger-light); }
+
         /* 검색 입력 및 버튼 배치 영역 */
         .search-bar-wrapper { display: flex; gap: 8px; margin-bottom: 14px; }
         .search-input-box {
@@ -386,7 +394,7 @@
                         </div>
                     </div>
 
-                    <div class="event-card" onclick="openEventModal('신메뉴 무화과 에이드 출시', './images/event4.jpg', '<span class=\'popup-main-title\'>[가월 한정 신메뉴 출시]</span>달콤한 향이 가득한 신메뉴 \'무화과 에이드\'가 출시되었습니다<br>모바일 오더로 주문 후 지금 바로 즐겨보세요.')">
+                    <div class="event-card" onclick="openEventModal('신메뉴 무화과 에이드 출시', './images/event4.jpg', '<span class=\'popup-main-title\'>[가을 한정 신메뉴 출시]</span>달콤한 향이 가득한 신메뉴 \'무화과 에이드\'가 출시되었습니다<br>모바일 오더로 주문 후 지금 바로 즐겨보세요.')">
                         <div class="event-thumb"><img src="./images/event4.jpg" alt="이벤트4"></div>
                         <div class="event-desc">
                             <h4>신메뉴 '무화과 에이드' 상큼 출시!</h4>
@@ -571,6 +579,7 @@
 
     let myBookings = [];
     let myStoreOrders = [];
+    let cancelledBookings = []; // 취소된 내역 기록용
     let selectedMovieForBooking = null;
 
     window.onload = function() {
@@ -761,7 +770,7 @@
     function openNotificationModal() {
         let html = '';
 
-        if (myBookings.length > 0 || myStoreOrders.length > 0) {
+        if (myBookings.length > 0 || myStoreOrders.length > 0 || cancelledBookings.length > 0) {
             let sortedBookings = [...myBookings].sort((a, b) => a.time.localeCompare(b.time));
             
             sortedBookings.forEach(b => {
@@ -774,6 +783,21 @@
                                 선택하신 상영 일시 (<b style="color:var(--mint-primary);">${b.time}</b>)<br>
                                 기준으로 예매가 확정되었습니다.<br>
                                 상영시간 15분 전 게이트 입장을 준비해주세요!
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cancelledBookings.forEach(cb => {
+                html += `
+                    <div class="notif-card" style="border-color: #fecaca; background: #fff5f5;">
+                        <div class="notif-icon" style="background:#fee2e2; color:#ef4444;">❌</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:bold; font-size:13px; color:#991b1b; margin-bottom:2px;">[예매 취소 완료] ${cb.title}</div>
+                            <div style="font-size:12px; color:#7f1d1d; line-height:1.5;">
+                                요청하신 영화 예매가 정상적으로 취소되었습니다.<br>
+                                결제 금액은 영업일 기준 2~3일 내 환불됩니다.
                             </div>
                         </div>
                     </div>
@@ -1083,6 +1107,18 @@
         alert('영화 예매 및 결제가 완료되었습니다! 우측 상단 알림 및 내역함에서 확인하세요.');
     }
 
+    function cancelBooking(bookingId) {
+        if(confirm('정말 예매를 취소하시겠습니까?')) {
+            const index = myBookings.findIndex(b => b.id === bookingId);
+            if(index !== -1) {
+                const cancelledItem = myBookings.splice(index, 1)[0];
+                cancelledBookings.push(cancelledItem);
+                alert('예매가 성공적으로 취소되었습니다.');
+                openHistoryModal(); // 내역 창 새로고침
+            }
+        }
+    }
+
     function renderStoreMenus() {
         const combos = [
             { id: 'c1', name: '더블콤보', desc: '팝콘 소 2 + 음료 2', price: 12000, img: './images/store_combo1.jpg' },
@@ -1314,7 +1350,8 @@
                     <div class="ticket-qr-box">
                         <div class="fake-qr">█▀█ █<br>▀▄ █▀<br>█ ▀█▄</div>
                     </div>
-                    <div style="font-size:9px; color:#64748b; margin-top:4px; font-weight:bold;">게이트 스캔용 입장 QR코드</div>
+                    <div style="font-size:9px; color:#64748b; margin-top:4px; font-weight:bold; margin-bottom:10px;">게이트 스캔용 입장 QR코드</div>
+                    <button class="cancel-btn" onclick="cancelBooking(${b.id})">예매 취소하기</button>
                 </div>
             `).join('');
         }
