@@ -3,8 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CINEMA PLUS</title>
+    <title>MINT CHOCO CINEMA+</title>
     <style>
+        :root {
+            --mint-primary: #4ade80; /* 상큼한 민트 포인트 */
+            --mint-light: #f0fdf4;  /* 연한 민트 배경 */
+            --choco-dark: #271c19;  /* 딥 초코 텍스트/포인트 */
+            --choco-sub: #5c4033;   /* 서브 초코 */
+            --bg-white: #ffffff;
+            --bg-gray: #f9fafb;
+            --border-color: #e5e7eb;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -14,8 +24,8 @@
         }
 
         body {
-            background-color: #121212;
-            color: #ffffff;
+            background-color: #e2e8f0;
+            color: var(--choco-dark);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,55 +33,25 @@
             overflow-x: hidden;
         }
 
-        /* PC 화면에서도 모바일처럼 보이도록 하는 프레임 래퍼 */
+        /* PC 화면에서 모바일 앱처럼 보이는 프레임 */
         .app-container {
             width: 100%;
             max-width: 480px;
             height: 100vh;
             max-height: 900px;
-            background-color: #181818;
+            background-color: var(--bg-white);
             position: relative;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
         @media (min-width: 481px) {
             .app-container {
                 border-radius: 24px;
-                border: 4px solid #333;
+                border: 4px solid var(--choco-dark);
             }
-        }
-
-        /* 1. 오프닝 전체화면 광고 */
-        #splash-ad {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #e50914, #141414);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            transition: opacity 0.5s ease;
-        }
-        #splash-ad h1 { font-size: 28px; margin-bottom: 10px; color: #fff; }
-        #splash-ad p { font-size: 14px; color: #ccc; margin-bottom: 30px; }
-        .skip-btn {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid #fff;
-            color: #fff;
-            padding: 10px 24px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
         }
 
         /* 상단 네비게이션바 */
@@ -81,266 +61,300 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 16px;
-            background-color: #181818;
-            border-bottom: 1px solid #282828;
+            background-color: var(--bg-white);
+            border-bottom: 1px solid var(--border-color);
             z-index: 10;
         }
-        .logo { font-size: 18px; font-weight: 900; color: #e50914; letter-spacing: 1px; cursor: pointer; }
-        .header-icons { display: flex; gap: 16px; font-size: 18px; cursor: pointer; }
+        .logo { font-size: 16px; font-weight: 900; color: var(--choco-dark); letter-spacing: -0.5px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .logo span { background: #10b981; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+        .header-icons { display: flex; gap: 14px; font-size: 18px; cursor: pointer; }
 
-        /* 메인 컨텐츠 영역 */
+        /* 메인 컨텐츠 스크롤 영역 */
         .content-scroll {
             flex: 1;
             overflow-y: auto;
             padding-bottom: 70px;
+            background-color: var(--bg-gray);
         }
         .content-scroll::-webkit-scrollbar { display: none; }
 
-        .section { padding: 16px; }
-        .section-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .section { padding: 16px; background: #fff; margin-bottom: 8px; }
+        .section-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; color: var(--choco-dark); display: flex; justify-content: space-between; align-items: center; }
 
-        /* 탭 메뉴 */
-        .tab-menu { display: flex; gap: 12px; border-bottom: 1px solid #282828; padding: 0 16px; background: #181818; }
-        .tab-btn {
-            background: none; border: none; color: #888; font-size: 15px; font-weight: bold; padding: 12px 0; cursor: pointer; position: relative;
+        /* 3개 메인 탭 메뉴 (현재상영작 / 상영예정작 / ONLY) */
+        .main-tab-menu { display: flex; background: #fff; border-bottom: 1px solid var(--border-color); padding: 0 16px; }
+        .main-tab-btn {
+            flex: 1; background: none; border: none; color: #9ca3af; font-size: 14px; font-weight: bold; padding: 12px 0; cursor: pointer; position: relative; text-align: center;
         }
-        .tab-btn.active { color: #fff; }
-        .tab-btn.active::after {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: #e50914;
+        .main-tab-btn.active { color: var(--choco-dark); }
+        .main-tab-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: #10b981;
         }
+        .main-tab-content { display: none; }
+        .main-tab-content.active { display: block; }
 
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        /* 영화 가로 스크롤 카드 */
-        .movie-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
-        .movie-scroll::-webkit-scrollbar { display: none; }
-        .movie-card { min-width: 130px; width: 130px; cursor: pointer; }
-        .movie-poster {
-            width: 130px; height: 180px; background-color: #333; border-radius: 8px; overflow: hidden; position: relative; margin-bottom: 6px;
+        /* 영화 포스터 가로 스크롤 카드 */
+        .poster-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
+        .poster-scroll::-webkit-scrollbar { display: none; }
+        .poster-card { min-width: 140px; width: 140px; cursor: pointer; }
+        .poster-img {
+            width: 140px; height: 200px; background-color: #e5e7eb; border-radius: 8px; overflow: hidden; position: relative; margin-bottom: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        .movie-poster img { width: 100%; height: 100%; object-fit: cover; }
-        .movie-title { font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .movie-rate { font-size: 11px; color: #aaa; margin-top: 2px; }
+        .poster-img img { width: 100%; height: 100%; object-fit: cover; }
+        .poster-title { font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--choco-dark); }
+        .poster-info { font-size: 11px; color: #6b7280; margin-top: 2px; display: flex; justify-content: space-between; }
 
-        /* 박스오피스 1~5위 리스트 */
-        .rank-list { display: flex; flex-direction: column; gap: 10px; }
-        .rank-item {
-            display: flex; align-items: center; background: #222; border-radius: 8px; padding: 10px; gap: 12px; cursor: pointer;
+        /* 이벤트 카드 뉴스 스타일 (4개 목록) */
+        .event-grid { display: flex; flex-direction: column; gap: 10px; }
+        .event-card {
+            background: #fff; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; display: flex; align-items: center; cursor: pointer;
         }
-        .rank-num { font-size: 20px; font-weight: 900; color: #e50914; width: 24px; text-align: center; }
-        .rank-thumb { width: 50px; height: 70px; border-radius: 4px; overflow: hidden; background: #444; flex-shrink: 0; }
-        .rank-thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .rank-info { flex: 1; }
-        .rank-title { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
-        .rank-sub { font-size: 11px; color: #aaa; }
-        .quick-book-btn {
-            background-color: #e50914; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer;
+        .event-thumb { width: 90px; height: 70px; background: #ddd; flex-shrink: 0; }
+        .event-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .event-desc { padding: 10px 12px; flex: 1; }
+        .event-desc h4 { font-size: 13px; font-weight: bold; margin-bottom: 4px; color: var(--choco-dark); }
+        .event-desc p { font-size: 11px; color: #6b7280; }
+
+        /* 회사소개 영역 (스크롤 맨 하단) */
+        .footer-about {
+            background: #1e1b18; color: #d1d5db; padding: 24px 16px; font-size: 11px; line-height: 1.6;
         }
+        .footer-about h3 { color: #fff; font-size: 13px; margin-bottom: 8px; font-weight: bold; }
+        .footer-about p { margin-bottom: 4px; color: #9ca3af; }
 
-        /* 이벤트/광고 배너 */
-        .banner-box {
-            width: 100%; height: 120px; background: linear-gradient(45deg, #2c3e50, #4ca1af); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 15px; margin-bottom: 10px; cursor: pointer;
-        }
-
-        /* 회사소개 스타일 */
-        .about-box { padding: 10px 0; font-size: 13px; color: #ccc; line-height: 1.6; }
-        .about-box h3 { color: #fff; margin-bottom: 8px; font-size: 15px; }
-
-        /* 하단 네비게이션바 */
+        /* 하단 고정 네비게이션바 (홈, 예매, 오더 3개) */
         .bottom-nav {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background-color: #181818; border-top: 1px solid #282828; display: flex; justify-content: space-around; align-items: center; z-index: 10;
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; background-color: #fff; border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; z-index: 10;
         }
         .nav-item {
-            display: flex; flex-direction: column; align-items: center; color: #888; font-size: 11px; cursor: pointer; gap: 4px; background: none; border: none;
+            display: flex; flex-direction: column; align-items: center; color: #9ca3af; font-size: 11px; cursor: pointer; gap: 4px; background: none; border: none; font-weight: bold;
         }
-        .nav-item.active { color: #e50914; }
+        .nav-item.active { color: #10b981; }
         .nav-item span { font-size: 18px; }
 
-        /* 모달 (예매, 모바일오더, 티켓확인 등) 공통 레이아웃 */
+        /* 모달 공통 스타일 */
         .modal {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #181818; z-index: 200; display: none; flex-direction: column;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #fff; z-index: 200; display: none; flex-direction: column;
         }
         .modal.open { display: flex; }
         .modal-header {
-            height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid #282828;
+            height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid var(--border-color); background: #fff;
         }
-        .modal-title { font-size: 16px; font-weight: bold; }
-        .close-btn { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; }
-        .modal-body { flex: 1; overflow-y: auto; padding: 16px; }
+        .modal-title { font-size: 15px; font-weight: bold; color: var(--choco-dark); }
+        .close-btn { background: none; border: none; color: var(--choco-dark); font-size: 18px; cursor: pointer; }
+        .modal-body { flex: 1; overflow-y: auto; padding: 16px; background: var(--bg-gray); }
 
-        /* 좌석 선택 스타일 */
-        .screen-view { width: 100%; background: #333; text-align: center; padding: 6px; font-size: 11px; color: #aaa; border-radius: 4px; margin-bottom: 20px; }
-        .seat-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; justify-content: center; margin-bottom: 20px; }
-        .seat {
-            background: #333; height: 35px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; color: #fff;
+        /* 팝업 공통 */
+        .popup-overlay {
+            position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 300; display:none; justify-content:center; align-items:center; padding: 20px;
         }
-        .seat.selected { background-color: #e50914; font-weight: bold; }
-        .seat.reserved { background-color: #555; color: #888; cursor: not-allowed; }
+        .popup-box { background: #fff; width: 100%; max-width: 340px; border-radius: 12px; padding: 20px; text-align: center; }
+        .popup-box h3 { font-size: 15px; margin-bottom: 10px; color: var(--choco-dark); }
+        .popup-box p { font-size: 12px; color: #4b5563; line-height: 1.5; text-align: left; background: var(--bg-gray); padding: 12px; border-radius: 6px; margin-bottom: 16px; }
+        .popup-btn { background: #10b981; color: #fff; border: none; width: 100%; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
 
-        /* 결제 화면 스타일 */
-        .payment-method { display: flex; gap: 10px; margin-bottom: 20px; }
-        .pay-btn {
-            flex: 1; padding: 12px; background: #222; border: 1px solid #444; border-radius: 6px; color: #fff; cursor: pointer; text-align: center; font-size: 13px;
+        /* 공통 버튼 */
+        .primary-btn {
+            width: 100%; background-color: #10b981; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; text-align: center; margin-top: 16px;
         }
-        .pay-btn.selected { border-color: #e50914; background: rgba(229,9,20,0.1); font-weight: bold; }
+        .primary-btn:disabled { background-color: #d1d5db; cursor: not-allowed; }
 
-        /* 티켓 형태의 예매 내역 스타일 */
-        .ticket-card {
-            background: #222; border-radius: 12px; margin-bottom: 16px; overflow: hidden; border: 1px solid #333; position: relative;
-        }
-        .ticket-header { background: #e50914; padding: 10px 16px; font-size: 12px; font-weight: bold; display: flex; justify-content: space-between; }
-        .ticket-body { padding: 16px; display: flex; gap: 12px; align-items: center; }
-        .ticket-thumb { width: 60px; height: 85px; border-radius: 4px; overflow: hidden; background: #444; flex-shrink: 0; }
-        .ticket-thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .ticket-info h4 { font-size: 14px; margin-bottom: 6px; }
-        .ticket-info p { font-size: 12px; color: #aaa; margin-bottom: 2px; }
+        /* 예매 스타일 요소들 */
+        .date-tabs { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; }
+        .date-tab { background: #fff; border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; flex-shrink: 0; text-align: center; }
+        .date-tab.active { background: #10b981; color: #fff; border-color: #10b981; }
 
-        /* 모바일 오더 상품 카드 */
-        .order-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .order-card { background: #222; border-radius: 8px; overflow: hidden; padding: 10px; display: flex; flex-direction: column; justify-content: space-between; }
-        .order-img { width: 100%; height: 100px; background: #333; border-radius: 6px; margin-bottom: 8px; overflow: hidden; }
-        .order-img img { width: 100%; height: 100%; object-fit: cover; }
-        .order-name { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
-        .order-price { font-size: 12px; color: #e50914; font-weight: bold; margin-bottom: 8px; }
-        .add-cart-btn { background: #333; color: #fff; border: none; padding: 6px; border-radius: 4px; font-size: 11px; cursor: pointer; }
+        .time-slot-box { background: #fff; border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .time-slot-box.selected { border-color: #10b981; background: var(--mint-light); }
 
-        .action-main-btn {
-            width: 100%; background-color: #e50914; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; text-align: center; margin-top: 10px;
-        }
+        .person-counter { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 10px 14px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--border-color); font-size: 13px; }
+        .counter-btns { display: flex; gap: 10px; align-items: center; }
+        .counter-btns button { width: 26px; height: 26px; border: 1px solid var(--border-color); background: #fff; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+        /* 좌석 (최소 G열 이상: A~G 총 7열) */
+        .screen-bar { width: 100%; background: #9ca3af; text-align: center; padding: 6px; font-size: 11px; color: #fff; border-radius: 4px; margin-bottom: 16px; font-weight: bold; }
+        .seat-grid-container { display: flex; flex-direction: column; gap: 6px; align-items: center; margin-bottom: 20px; overflow-x: auto; }
+        .seat-row { display: flex; gap: 6px; }
+        .seat { width: 28px; height: 28px; background: #e5e7eb; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; font-weight: bold; }
+        .seat.selected { background-color: #10b981; color: #fff; }
+        .seat.reserved { background-color: #d1d5db; color: #9ca3af; cursor: not-allowed; }
+
+        /* 할인 및 결제 수단 그리드 */
+        .discount-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px; }
+        .discount-item { background: #fff; border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .pay-method-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px; }
+        .pay-btn { background: #fff; border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; text-align: center; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .pay-btn.selected { border-color: #10b981; background: var(--mint-light); color: #065f46; }
+
+        /* 매점 메뉴 섹션 (탭 없이 아래로 길게) */
+        .store-section-title { font-size: 14px; font-weight: bold; margin: 16px 0 8px 0; color: var(--choco-dark); border-left: 3px solid #10b981; padding-left: 6px; }
+        .store-item-card { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+        .store-item-top { display: flex; justify-content: space-between; font-weight: bold; font-size: 13px; margin-bottom: 6px; }
+        .option-group { font-size: 11px; color: #4b5563; margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
+        .option-group select { padding: 4px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 11px; }
+
+        /* 통합 내역 카드 */
+        .history-card { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
 
-    <!-- 1. 오프닝 전체화면 광고 -->
-    <div id="splash-ad">
-        <h1>지금 절찬 상영중!</h1>
-        <p>시네마 플러스 특별 기획전 대개봉</p>
-        <button class="skip-btn" onclick="closeSplashAd()">광고 건너뛰기 & 홈으로</button>
-    </div>
-
     <!-- 상단 바 -->
     <header class="header">
-        <div class="logo" onclick="switchTab('home')">CINEMA+</div>
+        <div class="logo" onclick="switchTab('home')">MINT CHOCO <span>CINEMA+</span></div>
         <div class="header-icons">
-            <span onclick="alert('검색 기능')">🔍</span>
-            <span onclick="alert('알림함')">🔔</span>
-            <span onclick="openTicketModal()">🎟️</span>
+            <span onclick="alert('검색')">🔍</span>
+            <span onclick="alert('알림')">🔔</span>
+            <span onclick="openHistoryModal()">🎟️</span>
         </div>
     </header>
 
-    <!-- 메인 컨텐츠 스크롤 영역 -->
+    <!-- 메인 컨텐츠 영역 -->
     <div class="content-scroll" id="main-content-scroll">
         
         <!-- 홈 탭 화면 -->
-        <div id="tab-home" class="tab-content active">
-            <!-- 상영작 / 상영예정작 탭 -->
-            <div class="tab-menu">
-                <button class="tab-btn active" onclick="switchMovieTab(this, 'now')">현재 상영작</button>
-                <button class="tab-btn tab-btn-soon" onclick="switchMovieTab(this, 'soon')">상영예정작</button>
+        <div id="tab-home" class="main-tab-content active">
+            <!-- 3개 메인 탭 (현재상영작 / 상영예정작 / ONLY 독점작) -->
+            <div class="main-tab-menu">
+                <button class="main-tab-btn active" onclick="switchMainTab(this, 'now')">현재상영작</button>
+                <button class="main-tab-btn" onclick="switchMainTab(this, 'soon')">상영예정작</button>
+                <button class="main-tab-btn" onclick="switchMainTab(this, 'only')">ONLY 독점작</button>
             </div>
 
-            <!-- 현재 상영작 목록 -->
-            <div id="movie-now" class="section movie-list-section">
-                <div class="section-title">박스오피스 순위별 예매</div>
-                <div class="rank-list" id="rank-list-container">
-                    <!-- 자바스크립트로 1~5위 자동 생성 -->
+            <!-- 1. 현재상영작 슬라이드 -->
+            <div id="subtab-now" class="section">
+                <div class="section-title">박스오피스 상영작</div>
+                <div class="poster-scroll">
+                    <div class="poster-card" onclick="openNoticePopup(1)">
+                        <div class="poster-img"><img src="https://picsum.photos/140/200?random=1" alt="포스터"></div>
+                        <div class="poster-title">민트초코 대작전</div>
+                        <div class="poster-info"><span>예매율 35%</span><span>⭐ 9.2</span></div>
+                    </div>
+                    <div class="poster-card" onclick="openNoticePopup(2)">
+                        <div class="poster-img"><img src="https://picsum.photos/140/200?random=2" alt="포스터"></div>
+                        <div class="poster-title">초콜릿느낌의 밤</div>
+                        <div class="poster-info"><span>예매율 24%</span><span>⭐ 8.9</span></div>
+                    </div>
+                    <div class="poster-card" onclick="openNoticePopup(3)">
+                        <div class="poster-img"><img src="https://picsum.photos/140/200?random=3" alt="포스터"></div>
+                        <div class="poster-title">스위트 민트 가든</div>
+                        <div class="poster-info"><span>예매율 15%</span><span>⭐ 9.5</span></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 상영예정작 목록 -->
-            <div id="movie-soon" class="section movie-list-section" style="display:none;">
+            <!-- 상영예정작 슬라이드 -->
+            <div id="subtab-soon" class="section" style="display:none;">
                 <div class="section-title">개봉 예정 기대작</div>
-                <div class="movie-scroll">
-                    <div class="movie-card">
-                        <div class="movie-poster"><img src="https://picsum.photos/130/180?random=10" alt="영화"></div>
-                        <div class="movie-title">인터스텔라 리마스터</div>
-                        <div class="movie-rate">개봉예정</div>
+                <div class="poster-scroll">
+                    <div class="poster-card">
+                        <div class="poster-img"><img src="https://picsum.photos/140/200?random=4" alt="포스터"></div>
+                        <div class="poster-title">겨울방학 민트특집</div>
+                        <div class="poster-info"><span>개봉예정</span><span>D-12</span></div>
                     </div>
-                    <div class="movie-card">
-                        <div class="movie-poster"><img src="https://picsum.photos/130/180?random=11" alt="영화"></div>
-                        <div class="movie-title">스파이더맨 신작</div>
-                        <div class="movie-rate">개봉예정</div>
+                    <div class="poster-card">
+                        <div class="poster-img"><img src="https://picsum.photos/140/200?random=5" alt="포스터"></div>
+                        <div class="poster-title">다크 초코 리턴즈</div>
+                        <div class="poster-info"><span>개봉예정</span><span>D-25</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- 이벤트 및 광고 영역 -->
+            <!-- ONLY 독점작 슬라이드 -->
+            <div id="subtab-only" class="section" style="display:none;">
+                <div class="section-title">시네마플러스 ONLY 독점</div>
+                <div class="poster-scroll">
+                    <div class="poster-card">
+                        <div class="poster-img"><img src="https://picsum.photos/140/200?random=6" alt="포스터"></div>
+                        <div class="poster-title">오직 여기서만! 민트 콘서트</div>
+                        <div class="poster-info"><span>단독개봉</span><span>⭐ 9.8</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 진행중인 이벤트 (카드 뉴스 타입 4개) -->
             <div class="section">
-                <div class="section-title">진행 중인 이벤트 & 광고</div>
-                <div class="banner-box" style="background: linear-gradient(45deg, #8e44ad, #c0392b);">🍿 팝콘무료 쿠폰 증정 이벤트</div>
-                <div class="banner-box" style="background: linear-gradient(45deg, #d35400, #f39c12);">💳 제휴 카드 최대 50% 할인 혜택</div>
+                <div class="section-title">진행 중인 이벤트</div>
+                <div class="event-grid">
+                    <div class="event-card" onclick="alert('이벤트 1 상세 페이지')">
+                        <div class="event-thumb"><img src="https://picsum.photos/90/70?random=10" alt="이벤트"></div>
+                        <div class="event-desc">
+                            <h4>민트초코 콤보 출시 기념 2천원 할인</h4>
+                            <p>기간: 2026.03.01 ~ 03.31</p>
+                        </div>
+                    </div>
+                    <div class="event-card" onclick="alert('이벤트 2 상세 페이지')">
+                        <div class="event-thumb"><img src="https://picsum.photos/90/70?random=11" alt="이벤트"></div>
+                        <div class="event-desc">
+                            <h4>제휴 신용카드 최대 50% 현장 즉시 할인</h4>
+                            <p>대상: 민트초코 페이 카드 전용</p>
+                        </div>
+                    </div>
+                    <div class="event-card" onclick="alert('이벤트 3 상세 페이지')">
+                        <div class="event-thumb"><img src="https://picsum.photos/90/70?random=12" alt="이벤트"></div>
+                        <div class="event-desc">
+                            <h4>VIP 회원 전용 스페셜 굿즈 증정</h4>
+                            <p>선착순 1,000명 한정 지급</p>
+                        </div>
+                    </div>
+                    <div class="event-card" onclick="alert('이벤트 4 상세 페이지')">
+                        <div class="event-thumb"><img src="https://picsum.photos/90/70?random=13" alt="이벤트"></div>
+                        <div class="event-desc">
+                            <h4>모바일 오더 첫 주문 무료 사이즈업</h4>
+                            <p>모든 음료 및 팝콘 대상 적용</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. 회사소개 영역 (스크롤 맨 하단 배치) -->
+            <div class="footer-about">
+                <h3>(주) 시네마 플러스 컴퍼니</h3>
+                <p>대표이사: 민트초코 | 사업자등록번호: 123-45-67890</p>
+                <p>주소: 경상남도 양산시 물금읍 중앙로 123, 플러스빌딩 8층</p>
+                <p>고객센터: 1544-0000 | 이메일: support@mintcinema.co.kr</p>
+                <br>
+                <p style="color:#6b7280; font-size:10px;">Copyright © MINT CHOCO CINEMA+. All Rights Reserved.</p>
             </div>
         </div>
 
         <!-- 예매 탭 화면 -->
-        <div id="tab-booking" class="tab-content">
+        <div id="tab-booking" class="main-tab-content">
             <div class="section">
-                <div class="section-title">빠른 예매</div>
-                <div class="rank-list" id="booking-tab-list"></div>
+                <div class="section-title">영화 예매하기</div>
+                <div id="booking-movie-list">
+                    <!-- 스크립트로 자동 생성 -->
+                </div>
             </div>
         </div>
 
         <!-- 모바일 오더 탭 화면 -->
-        <div id="tab-order" class="tab-content">
+        <div id="tab-order" class="main-tab-content">
             <div class="section">
-                <div class="section-title">스낵 & 굿즈 모바일 오더</div>
-                <div class="order-grid">
-                    <div class="order-card">
-                        <div>
-                            <div class="order-img"><img src="https://picsum.photos/200/150?random=20" alt="팝콘"></div>
-                            <div class="order-name">오리지널 팝콘(대)</div>
-                            <div class="order-price">6,500원</div>
-                        </div>
-                        <button class="add-cart-btn" onclick="orderItem('오리지널 팝콘(대)', 6500)">주문하기</button>
-                    </div>
-                    <div class="order-card">
-                        <div>
-                            <div class="order-img"><img src="https://picsum.photos/200/150?random=21" alt="세트"></div>
-                            <div class="order-name">러브콤보 (팝콘+음료2)</div>
-                            <div class="order-price">11,000원</div>
-                        </div>
-                        <button class="add-cart-btn" onclick="orderItem('러브콤보 (팝콘+음료2)', 11000)">주문하기</button>
-                    </div>
-                    <div class="order-card">
-                        <div>
-                            <div class="order-img"><img src="https://picsum.photos/200/150?random=22" alt="음료"></div>
-                            <div class="order-name">콜라 단품 (R)</div>
-                            <div class="order-price">3,000원</div>
-                        </div>
-                        <button class="add-cart-btn" onclick="orderItem('콜라 단품 (R)', 3000)">주문하기</button>
-                    </div>
-                    <div class="order-card">
-                        <div>
-                            <div class="order-img"><img src="https://picsum.photos/200/150?random=23" alt="굿즈"></div>
-                            <div class="order-name">시네마 텀블러 굿즈</div>
-                            <div class="order-price">15,000원</div>
-                        </div>
-                        <button class="add-cart-btn" onclick="orderItem('시네마 텀블러 굿즈', 15000)">주문하기</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div class="section-title">모바일 오더 (매점)</div>
+                
+                <!-- 콤보 섹션 -->
+                <div class="store-section-title">🍿 콤보 메뉴</div>
+                <div id="combo-list"></div>
 
-        <!-- 회사소개 탭 화면 -->
-        <div id="tab-about" class="tab-content">
-            <div class="section">
-                <div class="section-title">회사 소개</div>
-                <div class="about-box">
-                    <h3>CINEMA PLUS COMPANY</h3>
-                    <p>시네마 플러스는 대한민국 최고의 영화 문화 공간을 선도합니다. 최첨단 사운드 시스템과 프리미엄 리클라이너 좌석으로 관객 여러분께 잊지 못할 감동을 선사합니다.</p>
-                    <br>
-                    <h3>고객 센터</h3>
-                    <p>대표번호: 1544-0000<br>운영시간: 09:00 ~ 22:00</p>
-                </div>
+                <!-- 팝콘 섹션 -->
+                <div class="store-section-title">🍿 팝콘 단품 (맛 선택)</div>
+                <div id="popcorn-list"></div>
+
+                <!-- 음료 섹션 -->
+                <div class="store-section-title">🥤 음료 메뉴 (사이즈/종류)</div>
+                <div id="drink-list"></div>
+
+                <button class="primary-btn" onclick="proceedStorePayment()">주문 및 결제하기</button>
             </div>
         </div>
 
     </div>
 
-    <!-- 하단 네비게이션 바 -->
+    <!-- 하단 고정 네비게이션바 (홈, 예매, 오더 3개) -->
     <nav class="bottom-nav">
         <button class="nav-item active" onclick="switchTab('home')">
             <span>🏠</span>홈
@@ -351,269 +365,475 @@
         <button class="nav-item" onclick="switchTab('order')">
             <span>🍿</span>모바일오더
         </button>
-        <button class="nav-item" onclick="switchTab('about')">
-            <span>🏢</span>회사소개
-        </button>
     </nav>
 
-    <!-- 2. 예매 프로세스 모달 (좌석선택 -> 결제수단 -> 결제완료) -->
-    <div id="booking-modal" class="modal">
-        <div class="modal-header">
-            <div class="modal-title" id="booking-modal-title">영화 예매</div>
-            <button class="close-btn" onclick="closeBookingModal()">✕</button>
-        </div>
-        <div class="modal-body" id="booking-step-content">
-            <!-- 동적으로 단계별 화면이 렌더링 됩니다 -->
+    <!-- 입장 안내 팝업 -->
+    <div id="notice-popup" class="popup-overlay">
+        <div class="popup-box">
+            <h3>상영관 입장 안내</h3>
+            <p>
+                • 상영시간 15분 전부터 입장 가능합니다.<br>
+                • 티켓 QR코드 또는 바코드를 게이트 리더기에 스캔 후 한명씩 입장 가능<br>
+                • 발권인원수대로 리더기에 스캔 후 입장<br>
+                • 스마트폰 스캔본은 바코드 스캔 불가하오니 지류티켓으로 출력해서 입장해주세요.
+            </p>
+            <button class="popup-btn" onclick="closeNoticePopup()">확인 및 예매 진행</button>
         </div>
     </div>
 
-    <!-- 예매티켓 확인 내역 모달 -->
-    <div id="ticket-modal" class="modal">
+    <!-- 영화 예매 진행 모달 -->
+    <div id="booking-modal" class="modal">
         <div class="modal-header">
-            <div class="modal-title">예매 및 주문 내역 확인</div>
-            <button class="close-btn" onclick="closeTicketModal()">✕</button>
+            <div class="modal-title" id="booking-modal-title">상영시간표 및 좌석선택</div>
+            <button class="close-btn" onclick="closeBookingModal()">✕</button>
         </div>
-        <div class="modal-body" id="ticket-list-container">
-            <!-- 티켓 및 오더 내역 출력 -->
+        <div class="modal-body" id="booking-modal-body">
+            <!-- 단계별 내용 렌더링 -->
+        </div>
+    </div>
+
+    <!-- 통합 내역 확인 모달 (예매내역 + 매점주문내역) -->
+    <div id="history-modal" class="modal">
+        <div class="modal-header">
+            <div class="modal-title">나의 예매 및 매점 주문 내역</div>
+            <button class="close-btn" onclick="closeHistoryModal()">✕</button>
+        </div>
+        <div class="modal-body" id="history-modal-body">
+            <!-- 내역 출력 -->
         </div>
     </div>
 
 </div>
 
 <script>
-    // 영화 1위~5위 데이터
-    const movies = [
-        { id: 1, title: "아바타: 불과 재", rate: "예매율 38.5%", genre: "SF / 액션", img: "https://picsum.photos/100/140?random=1" },
-        { id: 2, title: "범죄도시 5", rate: "예매율 24.1%", genre: "범죄 / 액션", img: "https://picsum.photos/100/140?random=2" },
-        { id: 3, title: "인사이더 인터스텔라", rate: "예매율 15.2%", genre: "드라마", img: "https://picsum.photos/100/140?random=3" },
-        { id: 4, title: "겨울왕국 3", rate: "예매율 12.0%", genre: "애니메이션", img: "https://picsum.photos/100/140?random=4" },
-        { id: 5, title: "극한직업 2", rate: "예매율 10.2%", genre: "코미디", img: "https://picsum.photos/100/140?random=5" }
+    // 영화 데이터
+    const moviesData = [
+        { id: 1, title: "민트초코 대작전", genre: "SF / 판타지", img: "https://picsum.photos/100/140?random=1" },
+        { id: 2, title: "초콜릿느낌의 밤", genre: "로맨스 / 드라마", img: "https://picsum.photos/100/140?random=2" },
+        { id: 3, title: "스위트 민트 가든", genre: "애니메이션", img: "https://picsum.photos/100/140?random=3" }
     ];
 
-    // 저장소 (예매 내역 및 주문 내역)
-    let myTickets = [];
-    let myOrders = [];
+    let myBookings = [];
+    let myStoreOrders = [];
+    let selectedMovieForBooking = null;
 
-    // 임시 예매 진행 상태 변수
-    let currentBooking = { movie: null, seat: null, payment: null };
-
-    // 초기화 실행
     window.onload = function() {
-        renderRankLists();
+        renderBookingMovieList();
+        renderStoreMenus();
     };
-
-    // 오프닝 광고 닫기
-    function closeSplashAd() {
-        const splash = document.getElementById('splash-ad');
-        splash.style.opacity = '0';
-        setTimeout(() => splash.style.display = 'none', 500);
-    }
 
     // 하단 탭 전환
     function switchTab(tabName) {
-        // 모든 탭 숨기기
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.main-tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
 
-        // 선택된 탭 활성화
         if(tabName === 'home') {
             document.getElementById('tab-home').classList.add('active');
-            document.querySelectorAll('.nav-item')[0].classList.add('active');
+            document.querySelectorAll('.bottom-nav .nav-item')[0].classList.add('active');
         } else if(tabName === 'booking') {
             document.getElementById('tab-booking').classList.add('active');
-            document.querySelectorAll('.nav-item')[1].classList.add('active');
+            document.querySelectorAll('.bottom-nav .nav-item')[1].classList.add('active');
         } else if(tabName === 'order') {
             document.getElementById('tab-order').classList.add('active');
-            document.querySelectorAll('.nav-item')[2].classList.add('active');
-        } else if(tabName === 'about') {
-            document.getElementById('tab-about').classList.add('active');
-            document.querySelectorAll('.nav-item')[3].classList.add('active');
+            document.querySelectorAll('.bottom-nav .nav-item')[2].classList.add('active');
         }
         document.getElementById('main-content-scroll').scrollTop = 0;
     }
 
-    // 영화 상영작 탭 내부 전환
-    function switchMovieTab(btn, type) {
-        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    // 홈 내부 탭 전환 (현재상영작/상영예정작/ONLY)
+    function switchMainTab(btn, type) {
+        const parent = btn.parentElement;
+        parent.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        if(type === 'now') {
-            document.getElementById('movie-now').style.display = 'block';
-            document.getElementById('movie-soon').style.display = 'none';
-        } else {
-            document.getElementById('movie-now').style.display = 'none';
-            document.getElementById('movie-soon').style.display = 'block';
-        }
+
+        document.getElementById('subtab-now').style.display = (type === 'now') ? 'block' : 'none';
+        document.getElementById('subtab-soon').style.display = (type === 'soon') ? 'block' : 'none';
+        document.getElementById('subtab-only').style.display = (type === 'only') ? 'block' : 'none';
     }
 
-    // 1~5위 영화 리스트 렌더링
-    function renderRankLists() {
-        const html = movies.map((m, index) => `
-            <div class="rank-item" onclick="startBooking(${m.id})">
-                <div class="rank-num">${index + 1}</div>
-                <div class="rank-thumb"><img src="${m.img}" alt="${m.title}"></div>
-                <div class="rank-info">
-                    <div class="rank-title">${m.title}</div>
-                    <div class="rank-sub">${m.genre} | ${m.rate}</div>
+    // 팝업 제어
+    function openNoticePopup(movieId) {
+        selectedMovieForBooking = moviesData.find(m => m.id === movieId);
+        document.getElementById('notice-popup').style.display = 'flex';
+    }
+    function closeNoticePopup() {
+        document.getElementById('notice-popup').style.display = 'none';
+        startBookingProcess();
+    }
+
+    // 예매 목록 렌더링
+    function renderBookingMovieList() {
+        const html = moviesData.map(m => `
+            <div style="background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:12px; margin-bottom:10px; display:flex; gap:12px; align-items:center;">
+                <img src="${m.img}" style="width:50px; height:70px; border-radius:4px; object-fit:cover;">
+                <div style="flex:1;">
+                    <div style="font-weight:bold; font-size:14px; margin-bottom:4px;">${m.title}</div>
+                    <div style="font-size:11px; color:#6b7280; margin-bottom:8px;">${m.genre}</div>
+                    <button class="primary-btn" style="margin-top:0; padding:6px 12px; font-size:12px;" onclick="selectMovieDirect(${m.id})">예매하기</button>
                 </div>
-                <button class="quick-book-btn">바로예매</button>
             </div>
         `).join('');
-
-        document.getElementById('rank-list-container').innerHTML = html;
-        document.getElementById('booking-tab-list').innerHTML = html;
+        document.getElementById('booking-movie-list').innerHTML = html;
     }
 
-    // 2. 예매 프로세스 시작 (좌석 선택 단계로)
-    function startBooking(movieId) {
-        const movie = movies.find(m => m.id === movieId);
-        currentBooking = { movie: movie, seat: null, payment: null };
-        
+    function selectMovieDirect(movieId) {
+        selectedMovieForBooking = moviesData.find(m => m.id === movieId);
+        openNoticePopup(movieId);
+    }
+
+    // 6. 예매 프로세스 시작 (날짜 3일치, 시간대, 인원, 좌석, 할인, 결제)
+    let bookingStepData = { date: '', time: '', hall: '', adult: 1, teen: 0, senior: 0, special: 0, seats: [], discount: '없음', payment: '신용/체크카드' };
+
+    function startBookingProcess() {
         document.getElementById('booking-modal').classList.add('open');
-        renderSeatStep();
+        renderStepTimeSelection();
     }
 
-    // 단계 1: 좌석 선택 화면
-    function renderSeatStep() {
-        document.getElementById('booking-modal-title').textContent = `[${currentBooking.movie.title}] 좌석 선택`;
-        
-        let seatsHtml = '';
-        const rows = ['A', 'B', 'C', 'D'];
-        rows.forEach(row => {
-            for(let i=1; i<=6; i++) {
-                const seatName = `${row}${i}`;
-                const isReserved = (seatName === 'A1' || seatName === 'B3'); // 예시 마감 좌석
-                const seatClass = isReserved ? 'seat reserved' : 'seat';
-                seatsHtml += `<div class="${seatClass}" ${isReserved ? '' : `onclick="selectSeat(this, '${seatName}')"`}>${seatName}</div>`;
-            }
-        });
+    // 오늘 기준 3일치 날짜 및 시간대 계산
+    function renderStepTimeSelection() {
+        const today = new Date();
+        let datesHtml = '';
+        let selectedDateStr = '';
 
-        document.getElementById('booking-step-content').innerHTML = `
-            <div class="screen-view">SCREEN</div>
-            <div class="seat-grid">${seatsHtml}</div>
-            <div style="font-size: 12px; color: #888; margin-bottom: 20px; text-align: center;">좌석을 선택한 후 다음 버튼을 누르세요.</div>
-            <button class="action-main-btn" id="next-to-pay" disabled style="opacity: 0.5;" onclick="renderPaymentStep()">결제수단 선택으로 이동</button>
+        for(let i=0; i<3; i++) {
+            let d = new Date();
+            d.setDate(today.getDate() + i);
+            let dStr = `${d.getMonth()+1}월 ${d.getDate}일 (${['일','월','화','수','목','금','토'][d.getDay()]})`;
+            if(i === 0) selectedDateStr = dStr;
+            datesHtml += `<div class="date-tab ${i===0?'active':''}" onclick="selectDateTab(this, '${dStr}')">${dStr}</div>`;
+        }
+        bookingStepData.date = selectedDateStr;
+
+        document.getElementById('booking-modal-body').innerHTML = `
+            <div style="font-weight:bold; font-size:13px; margin-bottom:8px;">날짜 선택 (오늘 기준 3일)</div>
+            <div class="date-tabs">${datesHtml}</div>
+
+            <div style="font-weight:bold; font-size:13px; margin-bottom:8px;">상영관 및 시간 선택 (중복 방지 배정)</div>
+            <div class="time-slot-box" onclick="selectTimeSlot(this, '1관', '10:00 - 12:10')">
+                <div><b>1관 (레이저관)</b><br><span style="font-size:11px; color:#6b7280;">10:00 ~ 12:10 (잔여 84석)</span></div>
+                <span style="color:#10b981; font-weight:bold;">선택</span>
+            </div>
+            <div class="time-slot-box" onclick="selectTimeSlot(this, '3관', '13:30 - 15:40')">
+                <div><b>3관 (리클라이너)</b><br><span style="font-size:11px; color:#6b7280;">13:30 ~ 15:40 (잔여 42석)</span></div>
+                <span style="color:#10b981; font-weight:bold;">선택</span>
+            </div>
+            <div class="time-slot-box" onclick="selectTimeSlot(this, '2관', '18:50 - 21:00')">
+                <div><b>2관 (커플석)</b><br><span style="font-size:11px; color:#6b7280;">18:50 ~ 21:00 (잔여 12석)</span></div>
+                <span style="color:#10b981; font-weight:bold;">선택</span>
+            </div>
+
+            <button class="primary-btn" id="to-person-btn" disabled onclick="renderStepPersonSelection()">인원 선택으로 이동</button>
         `;
     }
 
-    function selectSeat(element, seatName) {
-        document.querySelectorAll('.seat').forEach(s => {
-            if(!s.classList.contains('reserved')) s.classList.remove('selected');
-        });
-        element.classList.add('selected');
-        currentBooking.seat = seatName;
-        
-        const nextBtn = document.getElementById('next-to-pay');
-        nextBtn.disabled = false;
-        nextBtn.style.opacity = '1';
+    function selectDateTab(el, dStr) {
+        document.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        bookingStepData.date = dStr;
     }
 
-    // 단계 2: 결제수단 선택 화면
-    function renderPaymentStep() {
-        document.getElementById('booking-modal-title').textContent = `결제수단 선택`;
-        document.getElementById('booking-step-content').innerHTML = `
-            <div style="font-size: 14px; font-weight: bold; margin-bottom: 12px;">선택한 정보</div>
-            <div style="background: #222; padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 20px;">
-                영화: <b>${currentBooking.movie.title}</b><br>
-                좌석: <b style="color: #e50914;">${currentBooking.seat}번</b> (1인 일반 14,000원)
+    function selectTimeSlot(el, hall, time) {
+        document.querySelectorAll('.time-slot-box').forEach(b => b.classList.remove('selected'));
+        el.classList.add('selected');
+        bookingStepData.hall = hall;
+        bookingStepData.time = time;
+        document.getElementById('to-person-btn').disabled = false;
+    }
+
+    // 인원 선택 단계
+    function renderStepPersonSelection() {
+        document.getElementById('booking-modal-body').innerHTML = `
+            <div style="font-weight:bold; font-size:14px; margin-bottom:12px;">관람 인원 선택 (최대 8명)</div>
+            
+            <div class="person-counter">
+                <span>성인 (14,000원)</span>
+                <div class="counter-btns">
+                    <button onclick="changePerson('adult', -1)">-</button>
+                    <span id="cnt-adult">1</span>
+                    <button onclick="changePerson('adult', 1)">+</button>
+                </div>
+            </div>
+            <div class="person-counter">
+                <span>청소년 (11,000원)</span>
+                <div class="counter-btns">
+                    <button onclick="changePerson('teen', -1)">-</button>
+                    <span id="cnt-teen">0</span>
+                    <button onclick="changePerson('teen', 1)">+</button>
+                </div>
+            </div>
+            <div class="person-counter">
+                <span>경로 (8,000원)</span>
+                <div class="counter-btns">
+                    <button onclick="changePerson('senior', -1)">-</button>
+                    <span id="cnt-senior">0</span>
+                    <button onclick="changePerson('senior', 1)">+</button>
+                </div>
+            </div>
+            <div class="person-counter">
+                <span>우대 (7,000원)</span>
+                <div class="counter-btns">
+                    <button onclick="changePerson('special', -1)">-</button>
+                    <span id="cnt-special">0</span>
+                    <button onclick="changePerson('special', 1)">+</button>
+                </div>
             </div>
 
-            <div style="font-size: 14px; font-weight: bold; margin-bottom: 12px;">결제 수단 선택</div>
-            <div class="payment-method">
-                <div class="pay-btn selected" onclick="selectPayMethod(this, '신용/체크카드')">신용/체크카드</div>
-                <div class="pay-btn" onclick="selectPayMethod(this, '간편결제 (카카오페이/네이버페이)')">간편결제</div>
+            <button class="primary-btn" onclick="renderStepSeatSelection()">좌석 선택으로 이동</button>
+        `;
+    }
+
+    function changePerson(type, delta) {
+        let total = bookingStepData.adult + bookingStepData.teen + bookingStepData.senior + bookingStepData.special;
+        if(type === 'adult') bookingStepData.adult = Math.max(0, bookingStepData.adult + delta);
+        if(type === 'teen') bookingStepData.teen = Math.max(0, bookingStepData.teen + delta);
+        if(type === 'senior') bookingStepData.senior = Math.max(0, bookingStepData.senior + delta);
+        if(type === 'special') bookingStepData.special = Math.max(0, bookingStepData.special + delta);
+
+        let newTotal = bookingStepData.adult + bookingStepData.teen + bookingStepData.senior + bookingStepData.special;
+        if(newTotal === 0) {
+            bookingStepData.adult = 1; // 최소 1명 보장
+        }
+        document.getElementById('cnt-adult').textContent = bookingStepData.adult;
+        document.getElementById('cnt-teen').textContent = bookingStepData.teen;
+        document.getElementById('cnt-senior').textContent = bookingStepData.senior;
+        document.getElementById('cnt-special').textContent = bookingStepData.special;
+    }
+
+    // 좌석 선택 단계 (G열까지 총 7개 행 A~G)
+    function renderStepSeatSelection() {
+        const totalPersons = bookingStepData.adult + bookingStepData.teen + bookingStepData.senior + bookingStepData.special;
+        bookingStepData.seats = [];
+
+        let rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+        let seatsHtml = '';
+        rows.forEach(r => {
+            let rowSeats = '';
+            for(let i=1; i<=8; i++) {
+                let seatName = `${r}${i}`;
+                let isReserved = (seatName === 'A1' || seatName === 'B3' || seatName === 'C5');
+                rowSeats += `<div class="seat ${isReserved?'reserved':''}" ${isReserved?'':`onclick="toggleSeat(this, '${seatName}', ${totalPersons})"`, ''}>${i}</div>`;
+            }
+            seatsHtml += `<div class="seat-row"><span style="width:16px; font-size:10px; font-weight:bold; text-align:center; line-height:28px;">${r}</span>${rowSeats}</div>`;
+        });
+
+        document.getElementById('booking-modal-body').innerHTML = `
+            <div style="font-weight:bold; font-size:13px; margin-bottom:4px;">좌석 선택 (총 <span style="color:#10b981;" id="selected-count">0</span> / ${totalPersons}명 선택 필요)</div>
+            <div style="font-size:11px; color:#6b7280; margin-bottom:12px;">최소 G열까지 배치된 스크린 앞 좌석</div>
+            
+            <div class="screen-bar">SCREEN</div>
+            <div class="seat-grid-container">${seatsHtml}</div>
+
+            <button class="primary-btn" id="to-payment-btn" disabled onclick="renderStepPayment()">결제 페이지로 이동</button>
+        `;
+    }
+
+    function toggleSeat(el, seatName, maxCount) {
+        if(el.classList.contains('selected')) {
+            el.classList.remove('selected');
+            bookingStepData.seats = bookingStepData.seats.filter(s => s !== seatName);
+        } else {
+            if(bookingStepData.seats.length >= maxCount) {
+                alert(`설정하신 인원수(${maxCount명})만큼만 선택할 수 있습니다.`);
+                return;
+            }
+            el.classList.add('selected');
+            bookingStepData.seats.push(seatName);
+        }
+        document.getElementById('selected-count').textContent = bookingStepData.seats.length;
+        document.getElementById('to-payment-btn').disabled = (bookingStepData.seats.length !== maxCount);
+    }
+
+    // 결제 및 할인 적용 단계
+    function renderStepPayment() {
+        let totalPersons = bookingStepData.adult + bookingStepData.teen + bookingStepData.senior + bookingStepData.special;
+        let totalPrice = (bookingStepData.adult * 14000) + (bookingStepData.teen * 11000) + (bookingStepData.senior * 8000) + (bookingStepData.special * 7000);
+
+        document.getElementById('booking-modal-body').innerHTML = `
+            <div style="font-size:13px; background:#fff; border:1px solid var(--border-color); padding:12px; border-radius:8px; margin-bottom:12px;">
+                <b>[${selectedMovieForBooking.title}]</b><br>
+                일시: ${bookingStepData.date} ${bookingStepData.time}<br>
+                상영관: ${bookingStepData.hall} | 좌석: <span style="color:#10b981; font-weight:bold;">${bookingStepData.seats.join(', ')}</span><br>
+                인원: 총 ${totalPersons}명 (금액: <b>${totalPrice.toLocaleString()}원</b>)
+            </div>
+
+            <div style="font-weight:bold; font-size:13px; margin-bottom:8px;">할인 적용 (선택)</div>
+            <div class="discount-grid">
+                <div class="discount-item"><label><input type="radio" name="disc" checked onclick="bookingStepData.discount='없음'"> 적용 안함</label></div>
+                <div class="discount-item"><label><input type="radio" name="disc" onclick="bookingStepData.discount='일반 쿠폰 (-2천원)'"> 쿠폰 (-2천원)</label></div>
+                <div class="discount-item"><label><input type="radio" name="disc" onclick="bookingStepData.discount='VIP 쿠폰 (-5천원)'"> VIP 쿠폰</label></div>
+                <div class="discount-item"><label><input type="radio" name="disc" onclick="bookingStepData.disc='관람권 사용'"> 관람권 사용</label></div>
+                <div class="discount-item" style="grid-column: span 2;"><label><input type="radio" name="disc" onclick="bookingStepData.disc='포인트 사용'"> 포인트 차감 결제</label></div>
+            </div>
+
+            <div style="font-weight:bold; font-size:13px; margin-bottom:8px;">결제 수단 선택</div>
+            <div class="pay-method-grid">
+                <div class="pay-btn selected" onclick="selectPayMethod(this, '간편결제')">간편결제 (카카오/네이버)</div>
+                <div class="pay-btn" onclick="selectPayMethod(this, '신용/체크카드')">신용/체크카드</div>
+                <div class="pay-btn" onclick="selectPayMethod(this, '기타결제')">기타결제 (휴대폰 등)</div>
                 <div class="pay-btn" onclick="selectPayMethod(this, '무통장입금')">무통장입금</div>
             </div>
 
-            <button class="action-main-btn" onclick="completePayment()">14,000원 결제 완료하기</button>
+            <button class="primary-btn" onclick="completeBookingPayment(${totalPrice})">${totalPrice.toLocaleString()}원 결제 완료하기</button>
         `;
-        currentBooking.payment = '신용/체크카드';
     }
 
-    function selectPayMethod(element, method) {
+    function selectPayMethod(el, method) {
         document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('selected'));
-        element.classList.add('selected');
-        currentBooking.payment = method;
+        el.classList.add('selected');
+        bookingStepData.payment = method;
     }
 
-    // 단계 3: 결제 완료 및 티켓 저장
-    function completePayment() {
+    function completeBookingPayment(price) {
         const newTicket = {
             id: Date.now(),
-            title: currentBooking.movie.title,
-            seat: currentBooking.seat,
-            payment: currentBooking.payment,
-            date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-            img: currentBooking.movie.img
-        };
-
-        myTickets.push(newTicket);
-        
-        document.getElementById('booking-modal').classList.remove('open');
-        alert('예매 및 결제가 완료되었습니다! 상단 티켓 아이콘에서 확인하세요.');
-    }
-
-    // 3. 모바일 오더 주문 기능
-    function orderItem(name, price) {
-        const newOrder = {
-            id: Date.now(),
-            name: name,
+            title: selectedMovieForBooking.title,
+            hall: bookingStepData.hall,
+            time: `${bookingStepData.date} ${bookingStepData.time}`,
+            seats: bookingStepData.seats.join(', '),
+            payment: bookingStepData.payment,
             price: price,
-            date: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            img: selectedMovieForBooking.img
         };
-        myOrders.push(newOrder);
-        alert(`[${name}] 주문이 완료되었습니다!\n주문 내역에서 준비 상태를 확인하실 수 있습니다.`);
+        myBookings.push(newTicket);
+        document.getElementById('booking-modal').classList.remove('open');
+        alert('영화 예매 및 결제가 완료되었습니다! 우측 상단 티켓 아이콘에서 확인하세요.');
     }
 
-    // 예매 내역 및 주문 내역 모달 열기
-    function openTicketModal() {
-        const container = document.getElementById('ticket-list-container');
+    // 8 & 9. 모바일 오더 메뉴 (콤보, 팝콘, 음료 상세 옵션 반영)
+    function renderStoreMenus() {
+        // 콤보 메뉴
+        const combos = [
+            { id: 'c1', name: '더블콤보', desc: '팝콘 소 2 + 음료 2', price: 12000 },
+            { id: 'c2', name: '러브콤보', desc: '팝콘 대 1 + 음료 2', price: 11000 },
+            { id: 'c3', name: '즉석구이 콤보', desc: '팝콘 소 1 + 즉석구이 1 + 음료 2', price: 14000 }
+        ];
+
+        document.getElementById('combo-list').innerHTML = combos.map(c => `
+            <div class="store-item-card">
+                <div class="store-item-top"><span>${c.name}</span><span style="color:#10b981;">${c.price.toLocaleString()}원</span></div>
+                <div style="font-size:11px; color:#6b7280; margin-bottom:6px;">${c.desc}</div>
+                <div class="option-group">
+                    <label>팝콘 맛 선택: 
+                        <select id="combo-pop-${c.id}">
+                            <option value="더블카라멜 (+1000원)">더블카라멜 (+1,000원)</option>
+                            <option value="솔트">솔트 (기본)</option>
+                            <option value="갈릭 (+500원)">갈릭 (+500원)</option>
+                            <option value="치즈 (+500원)">치즈 (+500원)</option>
+                        </select>
+                    </label>
+                    <label>음료 종류/사이즈: 
+                        <select id="combo-drink-${c.id}">
+                            <option value="코카콜라 R">코카콜라 R</option>
+                            <option value="코카콜라 L (+500원)">코카콜라 L (+500원)</option>
+                            <option value="스프라이트 R">스프라이트 R</option>
+                            <option value="초코라떼 L">초코라떼 L (고정)</option>
+                            <option value="커피 L">커피 L (고정)</option>
+                            <option value="오렌지에이드 L">오렌지에이드 L (고정)</option>
+                        </select>
+                    </label>
+                </div>
+                <button class="primary-btn" style="margin-top:8px; padding:6px; font-size:11px;" onclick="orderCombo('${c.name}', ${c.price}, '${c.id}')">이 콤보 주문하기</button>
+            </div>
+        `).join('');
+
+        // 팝콘 단품
+        const popcorns = [
+            { name: '더블카라멜 팝콘', price: 6500 },
+            { name: '솔트 팝콘', price: 5500 },
+            { name: '갈릭 팝콘', price: 6000 },
+            { name: '치즈 팝콘', price: 6000 }
+        ];
+        document.getElementById('popcorn-list').innerHTML = popcorns.map((p, idx) => `
+            <div class="store-item-card" style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-weight:bold; font-size:13px;">${p.name}</div>
+                    <div style="color:#10b981; font-size:12px; font-weight:bold;">${p.price.toLocaleString()}원</div>
+                </div>
+                <button class="primary-btn" style="margin-top:0; padding:6px 12px; font-size:11px;" onclick="addStoreItem('${p.name}', ${p.price})">담기</button>
+            </div>
+        `).join('');
+
+        // 음료 메뉴 (콜라/스프라이트 R,L / 기타 초코라떼,커피,오렌지에이드 L고정)
+        const drinks = [
+            { name: '코카콜라', hasSize: true, price: 3000 },
+            { name: '스프라이트', hasSize: true, price: 3000 },
+            { name: '초코라떼 (L고정)', hasSize: false, price: 4500 },
+            { name: '커피 (L고정)', hasSize: false, price: 4000 },
+            { name: '오렌지에이드 (L고정)', hasSize: false, price: 4500 }
+        ];
+        document.getElementById('drink-list').innerHTML = drinks.map((d, idx) => `
+            <div class="store-item-card" style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-weight:bold; font-size:13px;">${d.name}</div>
+                    <div style="color:#10b981; font-size:12px; font-weight:bold;">${d.price.toLocaleString()}원</div>
+                </div>
+                <button class="primary-btn" style="margin-top:0; padding:6px 12px; font-size:11px;" onclick="addStoreItem('${d.name}', ${d.price})">담기</button>
+            </div>
+        `).join('');
+    }
+
+    function orderCombo(name, basePrice, id) {
+        let popOpt = document.getElementById(`combo-pop-${id}`).value;
+        let drkOpt = document.getElementById(`combo-drink-${id}`).value;
+        let finalName = `${name} [팝콘:${popOpt} / 음료:${drkOpt}]`;
         
-        let html = '<div class="section-title">🎟️ 나의 예매 티켓 내역</div>';
-        if(myTickets.length === 0) {
-            html += '<p style="color:#888; font-size:13px; margin-bottom:20px;">예매 내역이 없습니다.</p>';
+        myStoreOrders.push({ id: Date.now(), name: finalName, price: basePrice });
+        alert(`[${name}] 매점 주문이 추가되었습니다! 우측 상단 티켓/내역함에서 확인하세요.`);
+    }
+
+    function addStoreItem(name, price) {
+        myStoreOrders.push({ id: Date.now(), name: name, price: price });
+        alert(`[${name}] 상품이 주문에 추가되었습니다!`);
+    }
+
+    function proceedStorePayment() {
+        if(myStoreOrders.length === 0) {
+            alert('주문할 매점 상품을 선택해주세요.');
+            return;
+        }
+        alert('모바일 오더 결제가 완료되었습니다! 매점 주문 내역에서 확인 가능합니다.');
+    }
+
+    // 통합 내역 확인 모달 (예매내역 밑에 매점주문내역 분리 배치)
+    function openHistoryModal() {
+        const container = document.getElementById('history-modal-body');
+        
+        let html = '<div style="font-weight:bold; font-size:14px; margin-bottom:8px; color:var(--choco-dark);">🎟️ 영화 예매 내역</div>';
+        if(myBookings.length === 0) {
+            html += '<p style="color:#9ca3af; font-size:12px; margin-bottom:16px;">예매 내역이 없습니다.</p>';
         } else {
-            html += myTickets.map(t => `
-                <div class="ticket-card">
-                    <div class="ticket-header">
-                        <span>CINEMA+ MOBILE TICKET</span>
-                        <span>결제완료</span>
-                    </div>
-                    <div class="ticket-body">
-                        <div class="ticket-thumb"><img src="${t.img}" alt="포스터"></div>
-                        <div class="ticket-info">
-                            <h4>${t.title}</h4>
-                            <p>좌석: <b style="color:#e50914;">${t.seat}</b></p>
-                            <p>결제: ${t.payment}</p>
-                            <p style="font-size:11px; color:#666;">예매일시: ${t.date}</p>
-                        </div>
-                    </div>
+            html += myBookings.map(b => `
+                <div class="history-card" style="border-left: 4px solid #10b981;">
+                    <div style="font-weight:bold; font-size:13px; margin-bottom:4px;">${b.title}</div>
+                    <div>상영관: ${b.hall} | 시간: ${b.time}</div>
+                    <div>좌석: <b style="color:#10b981;">${b.seats}</b></div>
+                    <div>결제수단: ${b.payment} (${b.price.toLocaleString()}원)</div>
                 </div>
             `).join('');
         }
 
-        html += '<div class="section-title" style="margin-top:20px;">🍿 모바일 오더 주문 내역</div>';
-        if(myOrders.length === 0) {
-            html += '<p style="color:#888; font-size:13px;">주문 내역이 없습니다.</p>';
+        html += '<div style="font-weight:bold; font-size:14px; margin:16px 0 8px 0; color:var(--choco-dark);">🍿 매점 주문 내역</div>';
+        if(myStoreOrders.length === 0) {
+            html += '<p style="color:#9ca3af; font-size:12px;">매점 주문 내역이 없습니다.</p>';
         } else {
-            html += myOrders.map(o => `
-                <div style="background:#222; padding:12px; border-radius:8px; margin-bottom:10px; font-size:13px; display:flex; justify-content:space-between; align-items:center;">
+            html += myStoreOrders.map(o => `
+                <div class="history-card" style="border-left: 4px solid #f59e0b; display:flex; justify-content:space-between; align-items:center;">
                     <div>
-                        <b>${o.name}</b><br>
-                        <span style="color:#aaa; font-size:11px;">주문시간: ${o.date}</span>
+                        <div style="font-weight:bold;">${o.name}</div>
+                        <div style="font-size:11px; color:#6b7280;">상태: 준비중</div>
                     </div>
-                    <div style="color:#e50914; font-weight:bold;">${o.price.toLocaleString()}원</div>
+                    <div style="color:#10b981; font-weight:bold;">${o.price.toLocaleString()}원</div>
                 </div>
             `).join('');
         }
 
         container.innerHTML = html;
-        document.getElementById('ticket-modal').classList.add('open');
+        document.getElementById('history-modal').classList.add('open');
     }
 
-    function closeTicketModal() {
-        document.getElementById('ticket-modal').classList.remove('open');
+    function closeHistoryModal() {
+        document.getElementById('history-modal').classList.remove('open');
     }
-
     function closeBookingModal() {
         document.getElementById('booking-modal').classList.remove('open');
     }
